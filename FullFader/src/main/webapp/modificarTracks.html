@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="modificarTracks.css">
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="images/fotos/pexels-dominika-roseclay-1021876.jpg" alt="Logo">
+        </div>
+
+        <div id="userSection">
+            <!-- Aquí se mostrará el nombre del usuario -->
+            <span id="nombreUsuario"></span>
+            <button id="logoutButton" style="display: none;" onclick="cerrarSesion()">
+                <img id="logoutIcon" src="images/iconos/icons8-cerrar-sesión-96.png" alt="Icono Logout">
+            </button>
+            <a id="loginLink" href="login.html" class="login" style="display: none;">
+                <img src="images/iconos/icons8-cuenta-de-prueba-96.png" alt="Icono Login">
+            </a>       
+        </div>
+
+    </header>
+
+    <nav>
+        <div class="contenedorMenu">
+            <a href="index.html" class="logoMenu">FullFader</a>
+
+            <input type="checkbox" id="check" />
+            <label for="check" class="icons">
+                <i class="bx bx-menu" id="menu-icon"></i>
+                <i class="bx bx-x" id="close-icon"></i>
+            </label>
+
+            <nav class="navbar">
+                <a class="inicio" href="index.html" style="--i:0;">INICIO</a>
+                <a class="altas" href="altas.html" style="--i:1;">SUBIR TRACK</a>
+                <a class="listarTracks" href="listarTracks.html" style="--i:2;">TRACKS</a>
+                <a class="listarUsuarios" href="listarUsuarios.html" style="--i:3;">USUARIOS</a>
+                <a class="login" href="login.html" style="--i:4;">LOGIN</a>
+                <a class="registro" href="registro.html" style="--i:5;">REGISTRO</a>
+            </nav>
+        </div>
+    </nav>
+
+    <main>
+        <section class="contenedorFormulario">
+            <h1>Editar Cancion</h1>
+            <form name="ModificarTracks" action="ModificarTracks" method="post" enctype="multipart/form-data"
+                id="modificarTracks">
+                <input type="hidden" id="id" name="idTrack">
+                <ul id="formularioCancion">
+                    <li id="Genero">
+                        <label for="genero">Genero: </label>
+                        <select id="selectGenero" name="genero">
+                            <option value="">Selecciona un Genero</option>
+                            <option value="TECHNO">Techno</option>
+                            <option value="HOUSE">House</option>
+                            <option value="TRANCE">Trance</option>
+                            <option value="DEEP">Deep</option>
+                        </select>
+                    </li>
+                    <li id="titulo"><label for="">Titulo: </label><input id="tituloInput" type="text" name="titulo">
+                    </li>
+                    <li id="sello"><label for="">Sello: </label><input id="selloInput" type="text" name="sello"></li>
+                    <li id="year"><label for="">Año: </label><input id="yearInput" type="text" name="year"></li>
+                    <li id="duracion"><label for="">Duracion: </label><input id="duracionInput" type="text"
+                            name="duracion"></li>
+                    <li id="archivo"><label for="">Archivo: </label><input id="archivoInput" type="file" name="archivo">
+                    </li>
+                    <li id="fotoPortada" class="fotoPortadaCss"></li>
+                    <li id="portada"><label for="">Portada: </label><input id="portadaInput" type="file" name="portada">
+                    </li>
+                    <li id="validar"><input type="submit" value="Validar"></li>
+                </ul>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <div class="redes_sociales">
+            <a href="#"><img src="images/iconos/icons8-facebook-96.png" alt="Facebook"></a>
+            <a href="#"><img src="images/iconos/icons8-xbox-x-96.png" alt="Twitter"></a>
+        </div>
+        <p>Información del autor - Copyright - Otros detalles</p>
+    </footer>
+
+    <script>
+  
+    function obtenerNombreUsuario() {
+        fetch('Verificar')
+        .then(response => response.text())
+        .then(data => {
+            const nombreUsuario = document.getElementById('nombreUsuario');
+            const logoutButton = document.getElementById('logoutButton');
+            const logoutIcon = document.getElementById('logoutIcon');
+            const loginLink = document.getElementById('loginLink');
+
+            if (data) {
+                // Si hay un nombre de usuario, mostrarlo y el botón de logout, ocultar el enlace de login
+                nombreUsuario.innerText = data;
+                logoutButton.style.display = 'inline-block';
+                logoutIcon.style.display = 'inline-block';
+                loginLink.style.display = 'none';
+                } else {
+                // Si no hay nombre de usuario, mostrar el enlace de login, ocultar el botón y el icono de logout
+                nombreUsuario.innerText = '';
+                logoutButton.style.display = 'none';
+                logoutIcon.style.display = 'none';
+                loginLink.style.display = 'inline-block';
+                }
+            });
+        }
+
+        // Función para cerrar la sesión
+        function cerrarSesion() {
+            fetch('FullFader?logout=true') // Agregar el parámetro de logout
+                .then(response => {
+                    if (response.ok) {
+                        // Si la sesión se cerró correctamente, redirigir al usuario a la página de inicio de sesión
+                        window.location.href = 'index.html';
+                    } else {
+                        // Manejar el caso de error si es necesario
+                        console.error('Error al cerrar sesión:', response.status);
+                    }
+                })
+                .catch(error => console.error('Error al cerrar sesión:', error));
+        }
+
+        function llamada(id) {
+            fetch('ModificarTracks?idTrack=' + id)
+                .then(response => {
+                    if (response.redirected) {
+                        window.location.href = 'login.html';
+                    } else {
+                        return response.json();
+                    }
+                })
+                .then(data => {
+                    if (data) {
+                        pintar(data);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function obtenerIdTrackDesdeURL() {
+            // Obtener la URL de la página actual
+            var url = window.location.href;
+            // Definir la expresión regular para buscar el valor de idTrack
+            var regex = /idTrack=(\d+)/;
+            // Ejecutar la expresión regular en la URL
+            var match = regex.exec(url);
+            // Verificar si se encontró un valor de idTrack
+            return match ? match[1] : null;
+        }
+
+        function setGenero(genero) {
+            var selectGenero = document.getElementById("selectGenero");
+            // Establecer el valor deseado ("TECHNO" en este caso) como seleccionado
+            for (var i = 0; i < selectGenero.options.length; i++) {
+                if (selectGenero.options[i].value === genero) {
+                    selectGenero.options[i].selected = true;
+                }
+            }
+        }
+
+        function pintar(resultados) {
+            console.log(resultados);
+            setGenero(resultados.genero);
+            document.getElementById('tituloInput').value = resultados.titulo;
+            document.getElementById('selloInput').value = resultados.sello;
+            document.getElementById('yearInput').value = resultados.year;
+            document.getElementById('duracionInput').value = resultados.duracion;
+            pintarPortada(resultados.portada);
+        }
+
+        function pintarPortada(portada) {
+            // Ruta local de la imagen
+            var rutaImagen = "archivos/" + portada;
+            // Crear un elemento de imagen
+            var imagen = document.createElement("img");
+            imagen.src = rutaImagen;
+            // Establecer el tamaño deseado para la imagen
+            imagen.style.width = "150px"; // Ancho deseado
+            // Obtener el campo de archivo
+            var portadaInput = document.getElementById("fotoPortada");
+            // Insertar la imagen justo antes del campo de archivo
+            portadaInput.appendChild(imagen);
+        }
+
+        // Función que maneja el ID del track desde la URL
+        function obtenerIdTrack() {
+            var id = obtenerIdTrackDesdeURL();
+            if (id) {
+                document.getElementById('id').value = id;
+            llamada(id);
+            }
+        }
+
+        // Función para cargar la lista de tracks y obtener el nombre de usuario al mismo tiempo
+        function cargarPagina() {
+        obtenerNombreUsuario(); // Obtener nombre de usuario
+        obtenerIdTrack() // Obtener el idTrack
+        }
+    
+        // Llama a la función al cargar la página para obtener el nombre del usuario si está conectado y cargar la lista de tracks
+        window.onload = cargarPagina;
+
+    </script>
+</body>
+
+</html>

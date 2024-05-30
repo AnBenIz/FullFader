@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MiWeb</title>
+    <link rel="stylesheet" href="index.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="images/fotos/pexels-dominika-roseclay-1021876.jpg" alt="Logo">
+        </div>
+
+        <div id="userSection">
+            <!-- Aquí se mostrará el nombre del usuario -->
+            <span id="nombreUsuario"></span>
+            <button id="logoutButton" style="display: none;" onclick="cerrarSesion()">
+                <img id="logoutIcon" src="images/iconos/icons8-cerrar-sesión-96.png" alt="Icono Logout">
+            </button>
+            <a id="loginLink" href="login.html" class="login" style="display: none;">
+                <img src="images/iconos/icons8-cuenta-de-prueba-96.png" alt="Icono Login">
+            </a>
+        </div>
+
+    </header>
+
+    <nav>
+        <div class="contenedorMenu">
+            <a href="index.html" class="logoMenu">FullFader</a>
+
+            <input type="checkbox" id="check" />
+            <label for="check" class="icons">
+                <i class="bx bx-menu" id="menu-icon"></i>
+                <i class="bx bx-x" id="close-icon"></i>
+            </label>
+
+            <nav class="navbar">
+                <a class="inicio" href="index.html" style="--i:0;">INICIO</a>
+                <a class="altas" href="altas.html" style="--i:1;">SUBIR TRACK</a>
+                <a class="listarTracks" href="listarTracks.html" style="--i:2;">TRACKS</a>
+                <a class="listarUsuarios" href="listarUsuarios.html" style="--i:3;">USUARIOS</a>
+                <a class="login" href="login.html" style="--i:4;">LOGIN</a>
+                <a class="registro" href="registro.html" style="--i:5;">REGISTRO</a>
+            </nav>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <article class="box">
+                <header class="headerBox">
+                    <img src="images/fotos/a1883305441_16.jpg" alt="Portada Disco">
+                </header>
+                <footer class="footerBox">
+                    <div class="box">
+                        <span>Plastikman</span>
+                    </div>
+                    <div class="txtBox">
+                        <h2>Sheet One</h2>
+                        <p>
+                            1. Drp (2023 Remaster) 01:45 <br><br>
+                            2. Plasticity (2023 Remaster) 11:00 <br><br>
+                            3. Gak (2023 Remaster) 05:38 <br><br>
+                            4. Okx (2023 Remaster) 00:34 <br><br>
+                        </p>
+                    </div>
+                    <div class="perfilBox">
+                        <div class="imgPerfilBox">
+                            <img src="images/iconos/icons8-90s-music-96.png" alt="90´s">
+                        </div>
+                        <div class="txtPerfilBox">
+                            <span>Género</span>
+                            <span>Techno</span>
+                        </div>
+                    </div>
+                </footer>
+            </article>
+            <article class="box">
+                <header class="headerBox">
+                    <img src="images/fotos/a2387064760_16.jpg" alt="Portada Disco">
+                </header>
+                <footer class="footerBox">
+                    <div class="box">
+                        <span>Hector Oaks</span>
+                    </div>
+                    <div class="txtBox">
+                        <h2>Fuego Universal</h2>
+                        <p>
+                            1. Hector OAKS x Ill Pekeño & Ergo Pro - Eso es G 04:44<br>
+                            2. Hector OAKS x Schacke - U want me 07:13<br>
+                            3. Hector OAKS - Fuego universal (Keys by Presa) 05:27 <br>
+                            4. Hector OAKS x Sita - Loff is all you speed 05:54 <br>
+                        </p>
+                    </div>
+                    <div class="perfilBox">
+                        <div class="imgPerfilBox">
+                            <img src="images/iconos/icons8-00s-music-96.png" alt="90´s">
+                        </div>
+                        <div class="txtPerfilBox">
+                            <span>Género</span>
+                            <span>Techno</span>
+                        </div>
+                    </div>
+                </footer>
+            </article>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="redes_sociales">
+            <a href="#"><img src="images/iconos/icons8-facebook-96.png" alt="Facebook"></a>
+            <a href="#"><img src="images/iconos/icons8-xbox-x-96.png" alt="Twitter"></a>
+        </div>
+        <p>Información del autor - Copyright - Otros detalles</p>
+
+        <button id="btnAbrirModal">
+            <img src="images/iconos/icons8-información-96.png" style="width: 30px; height: auto;">
+        </button>
+        <dialog id="modal">
+            <img id="imagenModal" src="images/fotos/terminal-logo-rojo.jpg" alt="Lloreria">
+        </dialog>
+    </footer>
+
+    </div>
+
+    <script>
+        function obtenerNombreUsuario() {
+            fetch('Verificar')
+                .then(response => response.text())
+                .then(data => {
+                    const nombreUsuario = document.getElementById('nombreUsuario');
+                    const logoutButton = document.getElementById('logoutButton');
+                    const logoutIcon = document.getElementById('logoutIcon');
+                    const loginLink = document.getElementById('loginLink');
+
+                    if (data) {
+                        // Si hay un nombre de usuario, mostrarlo y el botón de logout, ocultar el enlace de login
+                        nombreUsuario.innerText = data;
+                        logoutButton.style.display = 'inline-block';
+                        logoutIcon.style.display = 'inline-block';
+                        loginLink.style.display = 'none';
+                    } else {
+                        // Si no hay nombre de usuario, mostrar el enlace de login, ocultar el botón y el icono de logout
+                        nombreUsuario.innerText = '';
+                        logoutButton.style.display = 'none';
+                        logoutIcon.style.display = 'none';
+                        loginLink.style.display = 'inline-block';
+                    }
+                });
+        }
+
+        // Función para cerrar la sesión
+        function cerrarSesion() {
+            fetch('FullFader?logout=true') // Agregar el parámetro de logout
+                .then(response => {
+                    if (response.ok) {
+                        // Si la sesión se cerró correctamente, redirigir al usuario a la página de inicio de sesión
+                        window.location.href = 'index.html';
+                    } else {
+                        // Manejar el caso de error si es necesario
+                        console.error('Error al cerrar sesión:', response.status);
+                    }
+                })
+                .catch(error => console.error('Error al cerrar sesión:', error));
+        }
+
+        // Función para cargar la lista de tracks y obtener el nombre de usuario al mismo tiempo
+        function cargarPagina() {
+            obtenerNombreUsuario(); // Obtener nombre de usuario
+        }
+        // Llama a la función al cargar la página para obtener el nombre del usuario si está conectado y cargar la lista de tracks
+        window.onload = cargarPagina;
+
+
+
+        const btnAbrirModal = document.querySelector("#btnAbrirModal");
+        const btnCerrarModal = document.querySelector("#btnCerrarModal");
+        const modal = document.querySelector("#modal");
+
+        btnAbrirModal.addEventListener("click",()=>{
+            modal.showModal();
+        });
+        imagenModal.addEventListener("click", () => {
+            modal.close();
+        });
+
+    </script>
+
+</body>
+
+</html>

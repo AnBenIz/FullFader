@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="offTopic.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="images/fotos/pexels-dominika-roseclay-1021876.jpg" alt="Logo">
+        </div>
+
+        <div id="userSection">
+            <!-- Aquí se mostrará el nombre del usuario -->
+            <span id="nombreUsuario"></span>
+            <button id="logoutButton" style="display: none;" onclick="cerrarSesion()">
+                <img id="logoutIcon" src="images/iconos/icons8-cerrar-sesión-96.png" alt="Icono Logout">
+            </button>
+            <a id="loginLink" href="login.html" class="login" style="display: none;">
+                <img src="images/iconos/icons8-cuenta-de-prueba-96.png" alt="Icono Login">
+            </a>       
+        </div>
+        
+    </header>
+
+    <nav>
+        <div class="contenedorMenu">
+            <a href="index.html" class="logoMenu">FullFader</a>
+
+            <input type="checkbox" id="check" />
+            <label for="check" class="icons">
+                <i class="bx bx-menu" id="menu-icon"></i>
+                <i class="bx bx-x" id="close-icon"></i>
+            </label>
+
+            <nav class="navbar">
+                <a class="inicio" href="index.html" style="--i:0;">INICIO</a>
+                <a class="altas" href="altas.html" style="--i:1;">SUBIR TRACK</a>
+                <a class="listarTracks" href="listarTracks.html" style="--i:2;">TRACKS</a>
+                <a class="listarUsuarios" href="listarUsuarios.html" style="--i:3;">USUARIOS</a>
+                <a class="login" href="login.html" style="--i:4;">LOGIN</a>
+                <a class="registro" href="registro.html" style="--i:5;">REGISTRO</a>
+            </nav>
+        </div>
+    </nav>
+
+    <main>
+
+        <section class="personaje">
+            <img src="imagen_personaje1.jpg" alt="Imagen Personaje 1">
+            <p>Texto descriptivo del Personaje Cualquiera.</p>
+        </section>
+        <!-- Se repite para Personaje 2 y 3 -->
+
+        <form id="deleteForm" action="Usuarios" method="post">
+            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+            <link rel="stylesheet" href="alert/dist/sweetalert.css">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="hidden" name="id" value="1"> <!-- ID del recurso que quieres eliminar -->
+            <button type="submit">Eliminar Recurso</button>
+        </form>
+    </main>
+    <footer>
+        <div class="redes_sociales">
+            <a href="#"><img src="images/iconos/icons8-facebook-96.png" alt="Facebook"></a>
+            <a href="#"><img src="images/iconos/icons8-xbox-x-96.png" alt="Twitter"></a>
+            <!-- Agrega más iconos de redes sociales según necesites -->
+        </div>
+        <p>Información del autor - Copyright - Otros detalles</p>
+    </footer>
+</body>
+
+</html>

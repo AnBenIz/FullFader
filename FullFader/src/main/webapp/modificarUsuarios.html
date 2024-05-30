@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="modificarUsuarios.css">
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="images/fotos/pexels-dominika-roseclay-1021876.jpg" alt="Logo">
+        </div>
+    </header>
+
+    <nav>
+        <div class="contenedorMenu">
+            <a href="index.html" class="logoMenu">FullFader</a>
+
+            <input type="checkbox" id="check" />
+            <label for="check" class="icons">
+                <i class="bx bx-menu" id="menu-icon"></i>
+                <i class="bx bx-x" id="close-icon"></i>
+            </label>
+
+            <nav class="navbar">
+                <a class="inicio" href="index.html" style="--i:0;">INICIO</a>
+                <a class="altas" href="altas.html" style="--i:1;">SUBIR TRACK</a>
+                <a class="listarTracks" href="listarTracks.html" style="--i:2;">TRACKS</a>
+                <a class="listarUsuarios" href="listarUsuarios.html" style="--i:3;">USUARIOS</a>
+                <a class="login" href="login.html" style="--i:4;">LOGIN</a>
+                <a class="registro" href="registro.html" style="--i:5;">REGISTRO</a>
+            </nav>
+        </div>
+
+        <div id="userSection">
+            <!-- Aquí se mostrará el nombre del usuario -->
+            <span id="nombreUsuario"></span>
+            <button id="logoutButton" style="display: none;" onclick="cerrarSesion()">
+                <img id="logoutIcon" src="images/iconos/icons8-cerrar-sesión-96.png" alt="Icono Logout">
+            </button>
+            <a id="loginLink" href="login.html" class="login" style="display: none;">
+                <img src="images/iconos/icons8-cuenta-de-prueba-96.png" alt="Icono Login">
+            </a>       
+        </div>
+
+    </nav>
+
+    <main>
+        <section class="contenedorFormulario">
+            <h1>Editar Usuario</h1>
+            <form name="Usuarios" action="Usuarios" method="post" enctype="multipart/form-data" id="modificarUsuarios">
+                <input type="hidden" id="id" name="idUsuarios">
+                <ul id="formularioUsuario">
+                    <li id="Nombre"><label>Nombre: </label><input id="nombreInput" type="text" name="nombre"></li>
+                    <li id="Correo"><label>Correo: </label><input id="correoInput" type="email" name="correo"></li>
+                    <li id="Password"><label>Contraseña: </label><input id="passwordInput" type="password"
+                            name="password" oninput="limitarCaracteres(this, 6)">
+                    </li>
+                    <li id="Rol">
+                        <div class="radio-button">
+                            <input type="radio" id="admin" name="rol" value="admin" required>
+                            <label for="admin">Administrador</label><br>
+                            <input type="radio" id="cliente" name="rol" value="cliente">
+                            <label for="cliente">Cliente</label><br>
+                        </div>
+                    </li>
+                    <button type="button" onclick="enviarDatos()">Enviar</button>
+                </ul>
+            </form>
+        </section>
+    </main>
+
+
+    <footer>
+        <div class="redes_sociales">
+            <a href="#"><img src="images/iconos/icons8-facebook-96.png" alt="Facebook"></a>
+            <a href="#"><img src="images/iconos/icons8-xbox-x-96.png" alt="Twitter"></a>
+        </div>
+        <p>Información del autor - Copyright - Otros detalles</p>
+    </footer>
+
+    <script>
+        
+    function obtenerNombreUsuario() {
+        fetch('Verificar')
+        .then(response => response.text())
+        .then(data => {
+            const nombreUsuario = document.getElementById('nombreUsuario');
+            const logoutButton = document.getElementById('logoutButton');
+            const logoutIcon = document.getElementById('logoutIcon');
+            const loginLink = document.getElementById('loginLink');
+
+            if (data) {
+                // Si hay un nombre de usuario, mostrarlo y el botón de logout, ocultar el enlace de login
+                nombreUsuario.innerText = data;
+                logoutButton.style.display = 'inline-block';
+                logoutIcon.style.display = 'inline-block';
+                loginLink.style.display = 'none';
+                } else {
+                // Si no hay nombre de usuario, mostrar el enlace de login, ocultar el botón y el icono de logout
+                nombreUsuario.innerText = '';
+                logoutButton.style.display = 'none';
+                logoutIcon.style.display = 'none';
+                loginLink.style.display = 'inline-block';
+                }
+            });
+        }
+
+        // Función para cerrar la sesión
+        function cerrarSesion() {
+            fetch('FullFader?logout=true') // Agregar el parámetro de logout
+                .then(response => {
+                    if (response.ok) {
+                        // Si la sesión se cerró correctamente, redirigir al usuario a la página de inicio de sesión
+                        window.location.href = 'index.html';
+                    } else {
+                        // Manejar el caso de error si es necesario
+                        console.error('Error al cerrar sesión:', response.status);
+                    }
+                })
+                .catch(error => console.error('Error al cerrar sesión:', error));
+        }
+
+
+        function limitarCaracteres(input, maxLength) {
+            if (input.value.length > maxLength) {
+                input.value = input.value.slice(0, maxLength);
+            }
+        }
+
+        function llamada(id) {
+            fetch('Usuarios?idUsuarios=' + id)
+                .then(response => response.json())
+                .then(data => pintar(data))
+        }
+
+        function obtenerIdUsuarioDesdeURL() {
+            // Obtener la URL de la página actual
+            var url = window.location.href;
+            // Definir la expresión regular para buscar el valor de idUsuario
+            var regex = /idUsuarios=(\d+)/;
+            // Ejecutar la expresión regular en la URL
+            var match = regex.exec(url);
+            // Verificar si se encontró un valor de idUsuario
+            if (match !== null) {
+                // El valor de idUsuario se encuentra en el primer grupo de captura
+                var idUsuarios = match[1];
+                return idUsuarios;
+            } else {
+                // Si no se encuentra un valor de idUsuario en la URL
+                return null;
+            }
+        }
+
+        function setRol(rol) {
+            var adminRadioButton = document.getElementById("admin");
+            var clienteRadioButton = document.getElementById("cliente");
+            // Establecer el radio button correspondiente como seleccionado
+            if (rol === "ADMINISTRADOR") {
+                adminRadioButton.checked = true;
+            } else if (rol === "CLIENTE") {
+                clienteRadioButton.checked = true;
+            }
+        }
+
+        function pintar(resultados) {
+            console.log(resultados);
+            document.getElementById('nombreInput').value = resultados.nombre;
+            document.getElementById('correoInput').value = resultados.correoElectronico;
+            // Limitar la contraseña a 8 caracteres
+            var password = resultados.password.substring(0, 6);
+            document.getElementById('passwordInput').value = password; // Buscar modo de no mostrar la pass
+            // Si la contraseña original tiene menos de 8 caracteres,
+            // rellenar con asteriscos para que se vea como una contraseña enmascarada
+            if (resultados.password.length < 6) {
+                var asteriscos = '*'.repeat(6 - resultados.password.length);
+                document.getElementById('passwordInput').value += asteriscos;
+            }
+            setRol(resultados.rol);
+        }
+
+        function enviarDatos() {
+            const formData = new FormData(document.getElementById('modificarUsuarios'));
+            fetch('Usuarios', {
+                method: 'PUT',
+                body: formData
+            })
+                .then(response => {
+                    console.log(response);
+                    if (!response.ok) {
+                        throw new Error('Error al enviar los datos');
+                    } else {
+                        window.open('listarUsuarios.html')
+                    }
+                })
+        }
+
+        function obtenerIdUsuario() {
+            var id = obtenerIdUsuarioDesdeURL();
+            if (id) {
+                document.getElementById('id').value = id;
+                llamada(id);
+            }
+        }
+
+        // Función para cargar la lista de usuarios y obtener el nombre de usuario al mismo tiempo
+        function cargarPagina() {
+        obtenerNombreUsuario(); // Obtener nombre de usuario
+        obtenerIdUsuario() // Obtener el idUsuario
+        }
+    
+        // Llama a la función al cargar la página para obtener el nombre del usuario si está conectado y cargar la lista de usuarios
+        window.onload = cargarPagina;
+
+    </script>
+
+</body>
+
+</html>

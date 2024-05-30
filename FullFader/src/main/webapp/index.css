@@ -1,0 +1,455 @@
+/* Estilos para el header */
+
+/* Reset de estilos para todos los elementos */
+* {
+  margin: 0; /* Establece el margen exterior a 0 */
+  padding: 0; /* Establece el relleno interior a 0 */
+  box-sizing: border-box; /* Hace que el ancho y el alto incluyan el relleno y el borde, pero no el margen */
+  text-decoration: none; /* Quita cualquier decoración de texto predeterminada */
+  list-style: none; /* Quita los marcadores de lista predeterminados */
+  /*Quita los puntos del li*/
+}
+
+/* Estilos generales para el cuerpo del documento */
+body {
+  min-height: 100vh; /* Establece la altura mínima del cuerpo al 100% del viewport */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Establece la fuente del texto */
+}
+
+/* Estilos para el header */
+header {
+  background-image: url(images/fotos/vinyl1.jpg); /* Establece una imagen de fondo */
+  background-color: black; /* Establece el color de fondo */
+  background-size: cover; /* Escala la imagen para cubrir todo el elemento */
+  align-items: center; /* Alinea los elementos secundarios verticalmente */
+}
+
+/* Estilos para el logo */
+.logo img {
+  width: 150px; /* Establece el ancho de la imagen del logo */
+  margin: 50px; /* Establece el margen exterior */
+  height: auto; /* Permite que la altura se ajuste automáticamente */
+  align-items: last baseline; /* Alinea los elementos secundarios verticalmente */
+}
+
+/* Estilos para el login */
+#userSection {
+  top: 20px; /* Ajusta la posición vertical según necesites */
+  right: 20px; /* Ajusta la posición horizontal según necesites */
+  position: absolute; /* Asegura que el elemento se posicione respecto a su contenedor */
+  background-color: #2a394f; /* Color de fondo */
+  color: azure; /* Color del texto */
+  padding: 10px 20px; /* Espaciado interno */
+  align-items: center; /* Centra verticalmente los elementos */
+  justify-content: center; /* Centra horizontalmente los elementos */
+  text-align: center; /* Alinea el texto del nombre de usuario al centro */
+  text-decoration: none; /* Sin subrayado */
+  display: flex; /* Mostrar como bloque en línea */
+  flex-direction: column; /* Apila los elementos verticalmente */
+  font-size: 16px; /* Tamaño de la fuente */
+  margin: 4px 2px; /* Margen alrededor */
+  cursor: pointer; /* Cursor de puntero */
+  border-radius: 12px; /* Bordes redondeados */
+}
+
+#userSection .login img {
+  width: 50px;
+  vertical-align: middle;
+}
+
+#nombreUsuario{
+  /* display: flex; */
+  margin-right: 5px; /* Ajusta el margen derecho según sea necesario */
+}
+
+#logoutButton {
+  background-color: transparent; /* Establece el fondo como transparente */
+  border: none; /* Elimina cualquier borde que pueda estar causando el fondo blanco */
+}
+
+#logoutIcon {
+  width: 50px;
+  vertical-align: middle;
+  display: none;
+}
+
+/* Estilos para las imágenes dentro del header */
+.header img {
+  max-height: 20%; /* Establece la altura máxima del 20% del contenedor padre */
+  margin: 0 5px 0 2px; /* Establece el margen exterior */
+}
+
+/* Estilos para el contenedor del menú */
+.contenedorMenu {
+  position: relative; /* Establece la posición relativa */
+  top: 0; /* Establece la posición superior */
+  left: 0; /* Establece la posición izquierda */
+  width: 100%; /* Establece el ancho al 100% del contenedor padre */
+  padding: 2.3rem 10%; /* Establece el relleno */
+  display: flex; /* Establece el diseño flexible */
+  justify-content: space-between; /* Distribuye uniformemente los elementos secundarios con el espacio restante */
+  align-items: center; /* Alinea los elementos secundarios verticalmente */
+  z-index: 100; /* Establece la posición en el eje Z */
+}
+
+
+/* Estilos para el fondo del contenedor del menú */
+.contenedorMenu::before {
+  content: ''; /* Agrega un contenido vacío */
+  position: absolute; /* Establece la posición absoluta */
+  top: 0; /* Establece la posición superior */
+  left: 0; /* Establece la posición izquierda */
+  width: 100%; /* Establece el ancho al 100% del contenedor padre */
+  height: 100%; /* Establece la altura al 100% del contenedor padre */
+  background-color: #2a394f; /* Establece el color de fondo */
+  /* backdrop-filter: blur(50px); */ /* Aplica un desenfoque al fondo */
+  z-index: -1; /* Establece la posición en el eje Z */
+}
+
+/* Estilos para el efecto de gradiente del contenedor del menú */
+.contenedorMenu::after {
+  content: ''; /* Agrega un contenido vacío */
+  position: absolute; /* Establece la posición absoluta */
+  top: 0; /* Establece la posición superior */
+  left: 100%; /* Establece la posición inicial a la derecha del contenedor */
+  width: 100%; /* Establece el ancho al 100% del contenedor padre */
+  height: 100%; /* Establece la altura al 100% del contenedor padre */
+  background: linear-gradient(90deg, transparent, aqua, transparent); /* Establece un gradiente lineal */
+  /*no funciona con mi fondo*/
+  transition: .5s; /* Agrega una transición con duración de 0.5 segundos */
+}
+
+/* Estilos para el efecto de gradiente del contenedor del menú al pasar el mouse */
+.contenedorMenu:hover::after {
+  left: 100%; /* Establece la posición del gradiente a la derecha del contenedor */
+}
+
+/* Estilos para el logo del menú */
+.logoMenu {
+  font-size: 24px; /* Establece el tamaño de fuente */
+  color: palevioletred; /* Establece el color del texto */
+  font-weight: 800; /* Establece el peso de la fuente */
+  /* text-transform: uppercase; */ /* Transforma el texto a mayúsculas */
+}
+
+/* Estilos para los enlaces de navegación */
+.navbar a {
+  font-size: 1rem; /* Establece el tamaño de fuente */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Establece la fuente del texto */
+  color: azure; /* Establece el color del texto */
+  text-decoration: none; /* Quita la decoración de texto predeterminada */
+  font-weight: 500; /* Establece el peso de la fuente */
+  margin-left: 2.5rem; /* Establece el margen izquierdo */
+}
+
+
+/* Estilos para los enlaces de navegación al pasar el mouse */
+.contenedorMenu .navbar a:hover {
+  color: #15a4f9; /* Cambia el color del texto al pasar el mouse */
+}
+
+/* Estilos para el checkbox de menú (generalmente utilizado para menús desplegables en dispositivos móviles) */
+#check {
+  display: none; /* Oculta el checkbox */
+}
+
+/* Estilos para los iconos del menú */
+.icons {
+  position: absolute; /* Establece la posición absoluta */
+  right: 5%; /* Establece la posición derecha */
+  font-size: 2.8rem; /* Establece el tamaño de fuente */
+  color: palevioletred; /* Establece el color del texto */
+  cursor: pointer; /* Establece el cursor como puntero */
+  display: none; /* Oculta los iconos por defecto */
+}
+
+
+/* Estilos para pantallas con un ancho máximo de 992px */
+@media (max-width: 992px) {
+  /* Reduce el relleno del contenedor del menú */
+  .contenedorMenu {
+    padding: 1.3rem 5%;
+  }
+}
+
+/* Estilos para pantallas con un ancho máximo de 768px */
+@media (max-width: 768px) {
+  /* Muestra los iconos del menú */
+  .icons {
+    display: inline-block;
+  }
+
+  /* Oculta el icono del menú cuando el checkbox está marcado */
+  #check:checked~.icons #menu-icon {
+    display: none;
+  }
+
+  /* Oculta el icono de cierre del menú por defecto */
+  .icons #close-icon {
+    display: none;
+  }
+
+  /* Muestra el icono de cierre del menú cuando el checkbox está marcado */
+  #check:checked~.icons #close-icon {
+    display: block;
+  }
+
+  /* Estilos para el menú de navegación */
+  .navbar {
+    position: absolute; /* Establece la posición absoluta */
+    top: 100%; /* Posiciona el menú debajo del botón del menú */
+    left: 0; /* Alinea el menú a la izquierda */
+    width: 100%; /* Establece el ancho al 100% del contenedor */
+    height: 0; /* Inicialmente oculta el menú */
+    background-color: #2a394f; /* Color de fondo del menú */
+    backdrop-filter: blur(50px); /* Aplica un desenfoque al fondo */
+    box-shadow: 0 .5rem 1rem aqua; /* Agrega una sombra al menú */
+    overflow: hidden; /* Oculta el contenido que sobresale del menú */
+    transition: .3s ease; /* Agrega una transición suave */
+  }
+
+  /* Muestra el menú cuando el checkbox está marcado */
+  #check:checked~.navbar {
+    height: 17.7rem; /* Ajusta la altura del menú */
+  }
+
+  /* Estilos para los enlaces del menú */
+  .navbar a {
+    display: block; /* Muestra los enlaces como bloques */
+    font-size: 1.1rem; /* Tamaño de fuente */
+    margin: 1.5rem 0; /* Margen superior e inferior */
+    text-align: center; /* Alineación del texto al centro */
+    transform: translateY(-50px); /* Desplaza los enlaces hacia arriba */
+    opacity: 0; /* Inicialmente oculta los enlaces */
+    transition: .3s ease; /* Agrega una transición suave */
+  }
+
+  /* Muestra los enlaces y los desplaza hacia abajo cuando el checkbox está marcado */
+  #check:checked~.navbar a {
+    transform: translateY(0); /* Desplaza los enlaces a su posición original */
+    opacity: 1; /* Hace que los enlaces sean visibles */
+    transition-delay: calc(.15s * var(--i)); /* Agrega un retraso a la transición de cada enlace */
+  }
+}
+
+
+/* Estilos para el elemento 'main' */
+main {
+  background-image: url(images/fotos/pexels-işıl-9062566.jpg); /* Establece una imagen de fondo */
+  background-size: cover; /* Ajusta la imagen para cubrir todo el contenedor */
+  align-items: center; /* Centra los elementos hijos verticalmente */
+}
+
+/* Estilos para el encabezado 'h1' */
+h1 {
+  background-color: #2a394f; /* Color de fondo */
+  color: cadetblue; /* Color del texto */
+}
+
+/* Estilos para los enlaces dentro del elemento con id 'ejecutaLista' */
+#ejecutaLista a {
+  background-color: #2a394f; /* Color de fondo */
+  color: azure; /* Color del texto */
+}
+
+/* Estilos para el contenedor con id 'listado' */
+#listado {
+  position: relative; /* Establece una posición relativa */
+  display: flex; /* Utiliza un diseño de tipo flexbox */
+  align-items: center; /* Centra los elementos hijos verticalmente */
+  z-index: 1000; /* Establece una posición en el eje z */
+}
+
+/* Estilos para el texto dentro de la tabla */
+.texto-tabla {
+  color: aliceblue; /* Color del texto */
+}
+
+/* Estilos para la tabla */
+table {
+  color: darksalmon; /* Color del texto dentro de la tabla */
+  border-collapse: collapse; /* Colapsar los bordes de la tabla */
+  width: 80%; /* Ancho de la tabla */
+  margin: 0 auto; /* Centrar la tabla horizontalmente */
+}
+
+/* Estilos para la tabla, encabezados y celdas */
+table,
+th,
+td {
+  background-color: #2a394f; /* Color de fondo de la tabla, encabezados y celdas */
+  border: 5px solid aqua; /* Grosor y color del borde de la tabla, encabezados y celdas */
+  padding: 10px; /* Espaciado interno de las celdas */
+}
+
+/* Estilos para resaltar filas impares */
+table tr:nth-child(odd) {
+  background-color: rgba(255, 255, 255, 0.1); /* Color de fondo para resaltar las filas impares */
+}
+
+/* Estilos para las imágenes dentro de las celdas de la tabla */
+table td img {
+  max-width: 100px; /* Ancho máximo de la imagen */
+  height: auto; /* Altura automática para mantener la proporción */
+}
+
+/* Estilos para el contenedor */
+.container {
+  display: flex; /* Utiliza un diseño de tipo flexbox */
+  flex-wrap: wrap; /* Permite que los elementos se envuelvan en varias líneas si es necesario */
+  justify-content: center; /* Centra los elementos horizontalmente */
+  gap: 3rem; /* Espacio entre los elementos */
+}
+/* Estilos para todas las imágenes */
+img {
+  border-radius: 8px; /* Borde redondeado */
+  max-width: 100%; /* Ancho máximo del contenedor */
+}
+
+/* Estilos para los artículos con clase 'box' */
+article.box {
+  max-width: 300px; /* Ancho máximo del artículo */
+  background: linear-gradient(to bottom, gray, black); /* Degradado de fondo */
+  color: blue; /* Color del texto */
+  border-radius: 8px; /* Borde redondeado */
+  margin: 1rem; /* Margen exterior */
+  margin-bottom: 10px; /* Margen inferior */
+  box-shadow: 0 0 20px; /* Sombra */
+}
+
+/* Estilos para elementos con clase 'box' */
+.box {
+  margin-top: 1rem; /* Margen superior */
+  font-weight: bold; /* Grosor del texto */
+}
+
+/* Estilos para el contenido dentro de los elementos con clase 'box' */
+.box span {
+  background-color: grey; /* Color de fondo */
+  color: gainsboro; /* Color del texto */
+  padding: .5rem 1rem; /* Espaciado interno */
+  margin: 1px; /* Margen exterior */
+  border-radius: 10px; /* Borde redondeado */
+}
+
+/* Estilos para el pie de página dentro de los elementos con clase 'box' */
+.box footer {
+  padding: 0 1rem; /* Espaciado interno */
+}
+
+/* Estilos para el texto dentro de los elementos */
+.txtBox {
+  padding: 5px; /* Espaciado interno */
+  color: gainsboro; /* Color del texto */
+}
+
+/* Estilos para el perfil */
+.perfilBox {
+  display: flex; /* Utiliza un diseño de tipo flexbox */
+  align-items: center; /* Alinea los elementos verticalmente */
+}
+
+/* Estilos para la imagen de perfil */
+.imgPerfilBox {
+  display: flex; /* Utiliza un diseño de tipo flexbox */
+  align-self: flex-end; /* Alinea la imagen de perfil en la parte inferior del contenedor */
+}
+
+/* Estilos para el texto del perfil */
+.txtPerfilBox {
+  display: flex; /* Utiliza un diseño de tipo flexbox */
+  flex-flow: row; /* Establece el flujo de los elementos en una fila */
+}
+
+
+.imgPerfilBox img {
+  width: 50px;
+  margin: 1rem 1rem 1rem 0;
+  /*Asi queda espaciado manteniendo el margen*/
+  /* border-radius: 50%;  Asi se puede redondear la foto si es cuadrada*/
+}
+
+
+.txtPerfilBox span:nth-child(2) {
+  /* Asi pinta el segundo span*/
+  color: wheat;
+}
+
+/* Estilos para el footer */
+footer {
+  /* background-image: url(images/fotos/pexels-elviss-railijs-bitāns-1389429.jpg); */
+  /* Si lo activo coge la foto tanto ".box footer" como el propio footer*/
+  background-color: #2a394f; /* Color de fondo */
+  background-repeat: no-repeat; /* Evita que la imagen de fondo se repita */
+  background-size: 100%; /* Ajusta el tamaño de la imagen de fondo */
+  color: #fff; /* Color del texto */
+  padding: 20px; /* Espaciado interno */
+  text-align: center; /* Alineación del texto */
+
+  position: relative;
+  margin-top: 20px;
+}
+
+/* Estilos para las imágenes de las redes sociales */
+.redes_sociales img {
+  width: 50px; /* Ancho de la imagen */
+  height: auto; /* Altura automática para mantener la proporción */
+  margin-right: 10px; /* Margen derecho */
+}
+
+
+#btnAbrirModal {
+  background-color: #2a394f; /* Color de fondo */
+  border: #2a394f;
+  cursor: pointer;
+}
+
+dialog {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 50%;
+  max-width: 400px;
+  text-align: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 8px;
+  background-color: rgba(0, 255, 255, 0.195);
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+/* .dialog-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+dialog img {
+  max-width: 100%;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-top: 20px;
+} */
+
+#imagenModal {
+  max-width: 100%;
+  height: auto;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  dialog {
+    width: 90%;
+    padding: 10px;
+  }
+}
+
+
+
+
+

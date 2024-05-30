@@ -1,0 +1,282 @@
+/* Estilos para el header */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
+    /*Quita los puntos del li*/
+}
+
+body {
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+header {
+    background-image: url(images/fotos/vinyl1.jpg);
+    background-color: black;
+    background-size: cover;
+    align-items: center;
+}
+
+.logo img {
+    width: 150px;
+    margin: 50px;
+    height: auto;
+    align-items: last baseline;
+}
+
+/* Estilos para el login */
+#userSection {
+    top: 20px; /* Ajusta la posición vertical según necesites */
+    right: 20px; /* Ajusta la posición horizontal según necesites */
+    position: absolute; /* Asegura que el elemento se posicione respecto a su contenedor */
+    background-color: #2a394f; /* Color de fondo */
+    color: azure; /* Color del texto */
+    padding: 10px 20px; /* Espaciado interno */
+    align-items: center; /* Centra verticalmente los elementos */
+    justify-content: center; /* Centra horizontalmente los elementos */
+    text-align: center; /* Alinea el texto del nombre de usuario al centro */
+    text-decoration: none; /* Sin subrayado */
+    display: flex; /* Mostrar como bloque en línea */
+    flex-direction: column; /* Apila los elementos verticalmente */
+    font-size: 16px; /* Tamaño de la fuente */
+    margin: 4px 2px; /* Margen alrededor */
+    cursor: pointer; /* Cursor de puntero */
+    border-radius: 12px; /* Bordes redondeados */
+  }
+  
+  #userSection .login img {
+    width: 50px;
+    vertical-align: middle;
+  }
+  
+  #nombreUsuario{
+    /* display: flex; */
+    margin-right: 5px; /* Ajusta el margen derecho según sea necesario */
+  }
+  
+  #logoutButton {
+    background-color: transparent; /* Establece el fondo como transparente */
+    border: none; /* Elimina cualquier borde que pueda estar causando el fondo blanco */
+  }
+  
+  #logoutIcon {
+    width: 50px;
+    vertical-align: middle;
+    display: none;
+  }
+
+.header img {
+    max-height: 20%;
+    margin: 0 5px 0 2px;
+}
+
+.contenedorMenu {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 2.3rem 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+}
+
+.contenedorMenu::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #2a394f;
+    /* backdrop-filter: blur(50px); */
+    z-index: -1;
+}
+
+.contenedorMenu::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent,
+            aqua, transparent);
+    /*no funciona con mi fondo*/
+    transition: .5s;
+}
+
+.contenedorMenu:hover::after {
+    left: 100%;
+}
+
+.logoMenu {
+    font-size: 24px;
+    color: palevioletred;
+    font-weight: 800;
+    /* text-transform: uppercase; */
+}
+
+.navbar a {
+    font-size: 1rem;
+    color: azure;
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 2.5rem;
+}
+
+.contenedorMenu .navbar a:hover {
+    color: #15a4f9;
+}
+
+#check {
+    display: none;
+}
+
+.icons {
+    position: absolute;
+    right: 5%;
+    font-size: 2.8rem;
+    color: palevioletred;
+    cursor: pointer;
+    display: none;
+}
+
+@media (max-width: 992px) {
+    .contenedorMenu {
+        padding: 1.3rem 5%;
+    }
+}
+
+@media (max-width: 768px) {
+    .icons {
+        display: inline-block;
+    }
+
+    #check:checked~.icons #menu-icon {
+        display: none;
+    }
+
+    .icons #close-icon {
+        display: none;
+    }
+
+    #check:checked~.icons #close-icon {
+        display: block;
+    }
+
+    .navbar {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        height: 0;
+        background-color: #2a394f;
+        backdrop-filter: blur(50px);
+        box-shadow: 0 .5rem 1rem aqua;
+        overflow: hidden;
+        transition: .3s ease;
+    }
+
+    #check:checked~.navbar {
+        height: 17.7rem;
+    }
+
+    .navbar a {
+        display: block;
+        font-size: 1.1rem;
+        margin: 1.5rem 0;
+        text-align: center;
+        transform: translateY(-50px);
+        opacity: 0;
+        transition: .3s ease;
+    }
+
+    #check:checked~.navbar a {
+        transform: translateY(0);
+        opacity: 1;
+        transition-delay: calc(.15s *var(--i));
+    }
+}
+
+main {
+    background-image: url(images/fotos/pexels-işıl-9062566.jpg);
+    background-size: cover;
+    align-items: center;
+    margin: 2px;
+    box-shadow: 0 0 0 2px black;
+}
+
+h1 {
+    color: azure;
+    background-color: #2a394f;
+    text-align: center;
+}
+
+.texto-tabla {
+    color: aliceblue;
+    background-color: #2a394f;
+}
+
+table {
+    color: darksalmon;
+    border-collapse: collapse;
+    width: 80%;
+    margin: 0 auto;
+}
+
+table,
+th,
+td {
+    border: 2px solid aqua;
+    background-color: #2a394f;
+    padding: 10px;
+    text-align: center;
+    /* Centrar el texto horizontalmente */
+    color: white;
+    /* Cambiar el color del texto */
+}
+
+th {
+    background-color: #2a394f;
+    /* Cambiar el color de fondo de las celdas de encabezado */
+}
+
+td:nth-child(odd) {
+    background-color: rgba(255, 255, 255, 0.1);
+    /* Cambiar el color de fondo de las filas impares */
+}
+
+/* Estilos para los iconos de editar y borrar */
+.iconoBorrar,
+.iconoEditar {
+  width: 25px;
+  /* Ajusta el tamaño según tus necesidades */
+  height: auto;
+  /* Mantiene la proporción de la imagen */
+  vertical-align: middle;
+  /* Alineación vertical */
+}
+
+/* Estilos para el footer */
+footer {
+    /* background-image: url(images/fotos/pexels-elviss-railijs-bitāns-1389429.jpg); */
+    /* Si lo activo coge la foto tanto ".box footer" como el propio footer*/
+    background-color: #2a394f;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+.redes_sociales img {
+    width: 50px;
+    height: auto;
+    margin-right: 10px;
+}

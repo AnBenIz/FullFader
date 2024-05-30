@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="listarTracks.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="images/fotos/pexels-dominika-roseclay-1021876.jpg" alt="Logo">
+        </div>
+
+        <div id="userSection">
+            <!-- Aquí se mostrará el nombre del usuario -->
+            <span id="nombreUsuario"></span>
+            <button id="logoutButton" style="display: none;" onclick="cerrarSesion()">
+                <img id="logoutIcon" src="images/iconos/icons8-cerrar-sesión-96.png" alt="Icono Logout">
+            </button>
+            <a id="loginLink" href="login.html" class="login" style="display: none;">
+                <img src="images/iconos/icons8-cuenta-de-prueba-96.png" alt="Icono Login">
+            </a>       
+        </div>
+
+    </header>
+
+    <nav>
+        <div class="contenedorMenu">
+            <a href="index.html" class="logoMenu">FullFader</a>
+
+            <input type="checkbox" id="check" />
+            <label for="check" class="icons">
+                <i class="bx bx-menu" id="menu-icon"></i>
+                <i class="bx bx-x" id="close-icon"></i>
+            </label>
+
+            <nav class="navbar">
+                <a class="inicio" href="index.html" style="--i:0;">INICIO</a>
+                <a class="altas" href="altas.html" style="--i:1;">SUBIR TRACK</a>
+                <a class="listarTracks" href="listarTracks.html" style="--i:2;">TRACKS</a>
+                <a class="listarUsuarios" href="listarUsuarios.html" style="--i:3;">USUARIOS</a>
+                <a class="login" href="login.html" style="--i:4;">LOGIN</a>
+                <a class="registro" href="registro.html" style="--i:5;">REGISTRO</a>
+            </nav>
+        </div>
+    </nav>
+
+    <main>
+        <h1>Listado De Tracks</h1>
+        <table id="listado">
+            <thead>
+                <tr>
+                    <th>Género</th>
+                    <th>Título</th>
+                    <th>Sello</th>
+                    <th>Año</th>
+                    <th>Duración</th>
+                    <th>Archivo</th>
+                    <th>Portada</th>
+                    <th>Editar</th>
+                    <th>Borrar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Aquí se llenarán las filas de la tabla con datos dinámicamente -->
+            </tbody>
+        </table>
+    </main>
+
+    <!-- Modal para la imagen de portada -->
+    <div id="myModal" class="modal">
+        <span class="close" onclick="cerrarModal()">&times;</span>
+        <img class="modal-content" id="imgGrande">
+        <div id="caption"></div>
+    </div>
+
+    <footer>
+        <div class="redes_sociales">
+            <a href="#"><img src="images/iconos/icons8-facebook-96.png" alt="Facebook"></a>
+            <a href="#"><img src="images/iconos/icons8-xbox-x-96.png" alt="Twitter"></a>
+        </div>
+        <p>Información del autor - Copyright - Otros detalles</p>
+    </footer>
+
+    <script>
+        function obtenerNombreUsuario() {
+            fetch('Verificar')
+                .then(response => response.text())
+                .then(data => {
+                    const nombreUsuario = document.getElementById('nombreUsuario');
+                    const logoutButton = document.getElementById('logoutButton');
+                    const logoutIcon = document.getElementById('logoutIcon');
+                    const loginLink = document.getElementById('loginLink');
+
+                    if (data) {
+                        // Si hay un nombre de usuario, mostrarlo y el botón de logout, ocultar el enlace de login
+                        nombreUsuario.innerText = data;
+                        logoutButton.style.display = 'inline-block';
+                        logoutIcon.style.display = 'inline-block';
+                        loginLink.style.display = 'none';
+                    } else {
+                        // Si no hay nombre de usuario, mostrar el enlace de login, ocultar el botón y el icono de logout
+                        nombreUsuario.innerText = '';
+                        logoutButton.style.display = 'none';
+                        logoutIcon.style.display = 'none';
+                        loginLink.style.display = 'inline-block';
+                    }
+                });
+        }
+
+        // Función para cerrar la sesión
+        function cerrarSesion() {
+            fetch('FullFader?logout=true') // Agregar el parámetro de logout
+                .then(response => {
+                    if (response.ok) {
+                        // Si la sesión se cerró correctamente, redirigir al usuario a la página de inicio de sesión
+                        window.location.href = 'index.html';
+                    } else {
+                        // Manejar el caso de error si es necesario
+                        console.error('Error al cerrar sesión:', response.status);
+                    }
+                })
+                .catch(error => console.error('Error al cerrar sesión:', error));
+        }
+
+        function llamada() {
+            console.log("entra en llamada")
+            let xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        try {
+                            const resultados = JSON.parse(xhr.responseText);
+                            llenarTabla(resultados);
+                        } catch (e) {
+                            console.error("Error al parsear los datos JSON");
+                        }
+                    }
+                }
+
+            };
+            xhr.open("GET", "Tracks", false);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send();
+        }
+
+        function llenarTabla(datos) {
+            const tbody = document.querySelector("#listado tbody");
+            tbody.innerHTML = '';  // Limpiar el cuerpo de la tabla primero
+            datos.forEach(dato => {
+                const fila = document.createElement("tr");
+                fila.innerHTML = `
+            <th>${dato.genero}</th>
+            <th>${dato.titulo}</th>
+            <th>${dato.sello}</th>
+            <th>${dato.year}</th>
+            <th>${dato.duracion}</th>
+            <th><a href="archivos/${dato.archivo}" download="${dato.titulo}">${dato.archivo}</a></th>
+            <th><img src="archivos/${dato.portada}" alt="Portada" class="portada-imagen" 
+                onclick="mostrarImagenGrande('archivos/${dato.portada}')"></th>
+            <th>
+                <a href="modificarTracks.html?idTrack=${dato.idTrack}">
+                    <img class="iconoEditar" src="images/iconos/icons8-editar-96.png">
+                </a>
+            </th>
+            <th>
+                <a href="javascript:borrar(${dato.idTrack})">
+                    <img class="iconoBorrar" src="images/iconos/icons8-eliminar-96.png">
+                </a>
+            </th>`;
+                tbody.appendChild(fila);
+            });
+        }
+
+        // Función para mostrar la imagen grande en un modal
+        function mostrarImagenGrande(src) {
+        var modal = document.getElementById("myModal");
+        var modalImg = document.getElementById("imgGrande");
+        var captionText = document.getElementById("caption");
+
+        modal.style.display = "block";
+        modalImg.src = src;
+        // captionText.innerHTML = src; // Para personalizar el texto del pie de foto, si se comenta se ocualtara el texto
+        }
+
+        // Función para cerrar el modal
+        function cerrarModal() {
+        var modal = document.getElementById("myModal");
+        modal.style.display = "none";
+        }
+
+        // Cerrar el modal cuando el usuario hace clic fuera de la imagen
+        window.onclick = function(event) {
+        var modal = document.getElementById("myModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        function borrar(idTrack) {
+            if (confirm("Seguro que quieres borrar")) {
+                fetch('ModificarTracks?idTrack=' + idTrack, {
+                    method: 'DELETE'
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            // Si la eliminación fue exitosa, recargar la página
+                            window.location.reload();
+                        } else {
+                            // Si la eliminación falló, mostrar un mensaje de error
+                            console.error('Error al borrar la pista de audio:', response.status);
+                        }
+                    })
+                    .catch(error => console.error('Error al borrar la pista de audio:', error));
+            } else {
+                // No se realiza ninguna acción si el usuario cancela la eliminación
+            }
+        }
+
+        // Función para cargar la lista de tracks y obtener el nombre de usuario al mismo tiempo
+        function cargarPagina() {
+            obtenerNombreUsuario(); // Obtener nombre de usuario
+            llamada(); // Cargar lista de tracks
+        }
+        // Llama a la función al cargar la página para obtener el nombre del usuario si está conectado y cargar la lista de tracks
+        window.onload = cargarPagina;
+
+    </script>
+
+</body>
+
+</html>
