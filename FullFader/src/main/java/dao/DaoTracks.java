@@ -14,10 +14,10 @@ import modelo.Track.Genero;
 import modelo.Usuario.Rol;
 
 /**
- * @author Ángel Benítez Izquierdo
+ * @author Angel BenItez Izquierdo
  * @version 1.0
  * 
- * Clase que maneja la conexión y operaciones relacionadas con la tabla "tracks" en la base de datos.
+ * Clase que maneja la conexiOn y operaciones relacionadas con la tabla "tracks" en la base de datos.
  */
 public class DaoTracks {
 
@@ -26,7 +26,7 @@ public class DaoTracks {
 	private static DaoTracks instance = null;	// Instancia para devolver el objeto DaoTechno
 
 	/**
-	 * Constructor privado de la clase DaoTracks para aplicar el patrón Singleton.
+	 * Constructor privado de la clase DaoTracks para aplicar el patron Singleton.
 	 * 
 	 * @throws SQLException Si ocurre un error al establecer la conexión a la base de datos.
 	 */
@@ -36,10 +36,10 @@ public class DaoTracks {
 	} // Al ser un objeto cuando no este en uso se desconectara. Siendo inecesaria la funcion desconectar.
 
 	/**
-	 * Método estático que devuelve una instancia de la clase DaoTracks. Implementa el patrón Singleton.
+	 * Metodo estatico que devuelve una instancia de la clase DaoTracks. Implementa el patrón Singleton.
 	 * 
 	 * @return Una instancia de la clase DaoTracks.
-	 * @throws SQLException Si ocurre un error al establecer la conexión a la base de datos.
+	 * @throws SQLException Si ocurre un error al establecer la conexion a la base de datos.
 	 */
 	public static DaoTracks getInstance () throws SQLException {// Metodo que devuelve el Objeto de la misma Clase, con todos sus metodos.
 		// Verifica si ya existe una instancia de DaoTracks
@@ -47,7 +47,7 @@ public class DaoTracks {
 			// Si no existe, crea una nueva instancia
 			instance = new DaoTracks ();
 		}
-		// Devuelve la instancia existente o recién creada
+		// Devuelve la instancia existente o recien creada
 		return instance;
 	}
 
@@ -62,7 +62,7 @@ public class DaoTracks {
 		String sql = "INSERT INTO track (genero, titulo, sello, year, duracion, archivo, portada) VALUES (?, ?, ?, ?, ?, ?, ?)";
 		PreparedStatement ps = con.prepareStatement(sql);
 
-		// Establecer los valores de los parámetros de la sentencia SQL
+		// Establecer los valores de los parametros de la sentencia SQL
 		ps.setString(1, track.getGenero().name()); // Convertimos el enum Genero a cadena utilizando el método name()
 		ps.setString(2, track.getTitulo());
 		ps.setString(3, track.getSello());
@@ -102,12 +102,12 @@ public class DaoTracks {
 	}
 
 	/**
-	 * Método que devuelve un objeto JSON que representa una lista de tracks.
+	 * Metodo que devuelve un objeto JSON que representa una lista de tracks.
 	 * @return Una cadena JSON que representa la lista de tracks.
 	 * @throws SQLException Si ocurre un error al acceder a la base de datos.
 	 */
 	public String dameJson () throws SQLException {
-		// Inicializa una cadena vacía para almacenar el JSON resultante
+		// Inicializa una cadena vacia para almacenar el JSON resultante
 		String json = "";
 		// Inicializa un objeto Gson para convertir objetos Java a JSON
 		Gson gson = new Gson();
@@ -120,7 +120,7 @@ public class DaoTracks {
 	}
 
 	/**
-	 * Método que obtiene un objeto Track de la base de datos basado en su ID.
+	 * Metodo que obtiene un objeto Track de la base de datos basado en su ID.
 	 * @param idTrack El ID del track que se desea obtener.
 	 * @return Un objeto Track que corresponde al ID especificado, o null si no se encuentra.
 	 * @throws SQLException Si ocurre un error al acceder a la base de datos.
@@ -152,7 +152,7 @@ public class DaoTracks {
 		            track = new Track(idTrack, genero, titulo, sello, year, duracion, archivo, portada);
 		        }
 		    } finally {
-		        // Cerrar los recursos en un bloque finally para garantizar su liberación
+		        // Cerrar los recursos en un bloque finally para garantizar su liberacion
 		        if (rs != null) {
 		            try {
 		                rs.close();
@@ -168,11 +168,11 @@ public class DaoTracks {
 		            }
 		        }
 		    }
-		    return track; // Devolver el objeto Track encontrado o null si no se encontró ningún track con ese ID
+		    return track; // Devolver el objeto Track encontrado o null si no se encontro ningun track con ese ID
 	}
 
 	/**
-	 * Método que elimina un track de la base de datos.
+	 * Metodo que elimina un track de la base de datos.
 	 * @param track El objeto Track que se desea eliminar.
 	 * @return true si el track fue eliminado correctamente, false si no.
 	 * @throws SQLException Si ocurre un error al acceder a la base de datos.
@@ -181,21 +181,20 @@ public class DaoTracks {
 		// Definir la consulta SQL para eliminar el track por su ID
 		String sql = "DELETE FROM track WHERE idTrack = ?";
 		try (PreparedStatement statement = con.prepareStatement(sql)) {
-			// Establecer el valor del parámetro ID del track a eliminar
+			// Establecer el valor del parametro ID del track a eliminar
 			statement.setInt(1, track.getIdTrack());
-			// Ejecutar la consulta y obtener el número de filas afectadas
+			// Ejecutar la consulta y obtener el numero de filas afectadas
 			int affectedRows = statement.executeUpdate();
-			// Devolver true si se eliminó al menos una fila, false de lo contrario
+			// Devolver true si se elimino al menos una fila, false de lo contrario
 			return affectedRows > 0;
 		} catch (SQLException e) {
-			// Capturar y manejar cualquier excepción SQL que ocurra durante el proceso
-			// Aquí podrías manejar logs o re-lanzar la excepción para manejarla en niveles más altos.
+			// Capturar y manejar cualquier excepcion SQL que ocurra durante el proceso
 			throw e;
 		}
 	}
 
 	/**
-	 * Método estático que actualiza un track en la base de datos.
+	 * Metodo estático que actualiza un track en la base de datos.
 	 * @param track El objeto Track que se desea actualizar.
 	 * @throws SQLException Si ocurre un error al acceder a la base de datos.
 	 */
@@ -204,10 +203,10 @@ public class DaoTracks {
 		PreparedStatement ps = null;
 
 		try {
-			con = DBConexion.getConexion(); // Obtener la conexión a la base de datos
+			con = DBConexion.getConexion(); // Obtener la conexion a la base de datos
 			String sql = "UPDATE track SET genero=?, titulo=?, sello=?, year=?, duracion=?, archivo=?, portada=? WHERE idTrack=?";
 			ps = con.prepareStatement(sql); // Preparar la consulta SQL
-			// Establecer los valores de los parámetros en la consulta SQL
+			// Establecer los valores de los parametros en la consulta SQL
 			ps.setString(1, track.getGenero().name());
 			ps.setString(2, track.getTitulo());
 			ps.setString(3, track.getSello());
@@ -215,11 +214,11 @@ public class DaoTracks {
 			ps.setString(5, track.getDuracion());
 			ps.setString(6, track.getArchivo());
 			ps.setString(7, track.getPortada());
-			ps.setInt(8, track.getIdTrack()); // Utilizar el ID para la condición WHERE
+			ps.setInt(8, track.getIdTrack()); // Utilizar el ID para la condicion WHERE
 
-			ps.executeUpdate(); // Ejecutar la consulta de actualización
+			ps.executeUpdate(); // Ejecutar la consulta de actualizacion
 		} finally {
-			// Cerrar los recursos en un bloque finally para garantizar su liberación
+			// Cerrar los recursos en un bloque finally para garantizar su liberacion
 			if (ps != null) {
 				ps.close();
 			}

@@ -26,7 +26,7 @@ import dao.DaoTracks;
 import dao.DaoUsuarios;
 
 /** 
- * @author Ángel Benítez Izquierdo
+ * @author Angel Benitez Izquierdo
  * @version 1.0
  * 
  * Servlet implementation class Tracks
@@ -38,7 +38,7 @@ import dao.DaoUsuarios;
 public class Tracks extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	// Ruta del directorio donde se almacenarán los archivos de audio
+	// Ruta del directorio donde se almacenaran los archivos de audio
 	private String pathFiles = "C:\\Users\\veyro\\eclipse-workspace\\FullFader\\src\\main\\webapp\\archivos";
 	private File uploads = new File(pathFiles);
 
@@ -53,7 +53,7 @@ public class Tracks extends HttpServlet {
 	/**
 	 * Método que maneja las solicitudes GET para el servlet Tracks.
 	 * @param request Objeto HttpServletRequest que representa la solicitud HTTP recibida.
-	 * @param response Objeto HttpServletResponse que representa la respuesta HTTP que se enviará al cliente.
+	 * @param response Objeto HttpServletResponse que representa la respuesta HTTP que se enviara al cliente.
 	 * @throws ServletException Si ocurre un error interno en el servlet.
 	 * @throws IOException Si ocurre un error de entrada/salida al procesar la solicitud o enviar la respuesta.
 	 */
@@ -65,14 +65,14 @@ public class Tracks extends HttpServlet {
 		try {
 			if (pathInfo == null || pathInfo.equals("/")) {
 				// Obtener todos los Tracks
-				// Si la parte de la ruta es nula o vacía, significa que se solicitan todos los tracks
+				// Si la parte de la ruta es nula o vacia, significa que se solicitan todos los tracks
 				// Obtiene todos los tracks de la base de datos utilizando el DaoTracks
 				ArrayList<Track> track = DaoTracks.getInstance().listarTracks();
 				response.setContentType("application/json");
 				response.getWriter().println(gson.toJson(track));
 			} else {
 				// Obtener un usuario por ID
-				// Si la parte de la ruta no es nula ni vacía, se espera que sea el ID de un track específico
+				// Si la parte de la ruta no es nula ni vacía, se espera que sea el ID de un track especifico
 				// Divide la parte de la ruta en partes utilizando "/" como separador
 				String[] pathParts = pathInfo.split("/");
 				int id = Integer.parseInt(pathParts[1]);
@@ -97,7 +97,7 @@ public class Tracks extends HttpServlet {
 	}
 
 	/**
-	 * Método que maneja las solicitudes POST para la inserción de un nuevo track en la base de datos.
+	 * Metodo que maneja las solicitudes POST para la insercion de un nuevo track en la base de datos.
 	 * 
 	 * @param request Objeto HttpServletRequest que contiene la solicitud HTTP
 	 * @param response Objeto HttpServletResponse que contiene la respuesta HTTP
@@ -105,29 +105,29 @@ public class Tracks extends HttpServlet {
 	 * @throws IOException Si ocurre un error de entrada o salida durante la solicitud
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		boolean valid = true; // Este booleano rastrea si los datos son válidos durante todo el proceso
+		boolean valid = true; // Este booleano rastrea si los datos son validos durante todo el proceso
 
-		// Obtener el parámetro de género
+		// Obtener el parametro de genero
 		String generoString = request.getParameter("genero");
 		Genero genero = null; // Enum que representa el género de la canción
 
-		// Validar si el género está presente
+		// Validar si el género esta presente
 		if (generoString == null || generoString.isEmpty()) {
-			// Si no se proporciona el género, se envía un error y se marca 'valid' como falso
+			// Si no se proporciona el genero, se envia un error y se marca 'valid' como falso
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Género no proporcionado.");
 			valid = false;
 		} else {
-			// Convertir el string del género a un valor enum Genero
+			// Convertir el string del genero a un valor enum Genero
 			try {
 				genero = Genero.valueOf(generoString.toUpperCase());
 			} catch (IllegalArgumentException e) {
-				// Si el género no es válido, se envía un error y se marca 'valid' como falso
+				// Si el genero no es válido, se envia un error y se marca 'valid' como falso
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Género no válido.");
 				valid = false;
 			}
 		}
 
-		// Obtener otros parámetros del formulario
+		// Obtener otros parametros del formulario
 		String titulo = request.getParameter("titulo");
 		String sello = request.getParameter("sello");
 		int year = 0;
@@ -135,13 +135,13 @@ public class Tracks extends HttpServlet {
 		try {
 			year = Integer.parseInt(request.getParameter("year"));
 		} catch (NumberFormatException e) {
-			// Si el año no es válido, se envía un error y se marca 'valid' como falso
+			// Si el año no es valido, se envia un error y se marca 'valid' como falso
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Año inválido.");
 			valid = false;
 		}
 		String duracion = request.getParameter("duracion");
 
-		// Obtener los archivos de la canción y la foto
+		// Obtener los archivos de la cancion y la foto
 		Part archivoCancion = null;
 		Part archivoFoto = null;
 		if (valid) {
@@ -154,14 +154,14 @@ public class Tracks extends HttpServlet {
 			}
 		}
 
-		// Obtener los nombres de archivo de la canción y la foto
+		// Obtener los nombres de archivo de la cancion y la foto
 		String nombreArchivoCancion = "";
 		String nombreArchivoFoto = "";
 		if (valid) {
 			nombreArchivoCancion = obtenerNombreArchivoCancion(archivoCancion);
 			nombreArchivoFoto = obtenerNombreArchivoFoto(archivoFoto);
 			if (nombreArchivoCancion.isEmpty() || nombreArchivoFoto.isEmpty()) {
-				// Si los nombres de los archivos son inválidos, se envía un error y se marca 'valid' como falso
+				// Si los nombres de los archivos son invalidos, se envia un error y se marca 'valid' como falso
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Nombre de archivo inválido.");
 				valid = false;
 			}
@@ -173,7 +173,7 @@ public class Tracks extends HttpServlet {
 				guardarArchivoCancion(archivoCancion.getInputStream(), nombreArchivoCancion);
 				guardarArchivoFoto(archivoFoto.getInputStream(), nombreArchivoFoto);
 			} catch (IOException e) {
-				// Si ocurre un error al guardar los archivos, se envía un error y se marca 'valid' como falso
+				// Si ocurre un error al guardar los archivos, se envia un error y se marca 'valid' como falso
 				response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al guardar archivos.");
 				valid = false;
 			}
@@ -184,30 +184,30 @@ public class Tracks extends HttpServlet {
 			try {
 				Track t1 = new Track(genero, titulo, sello, year, duracion, nombreArchivoCancion, nombreArchivoFoto);
 				t1.insertarTrack();
-				// Si la inserción es exitosa, se redirige a listarTracks.html
+				// Si la insercion es exitosa, se redirige a listarTracks.html
 				response.sendRedirect("listarTracks.html");
 			} catch (SQLException e) {
-				// Si ocurre un error durante la inserción, se envía un error
+				// Si ocurre un error durante la insercion, se envia un error
 				response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al insertar datos en la base de datos.");
 			}
 		}
 
-		// Esta línea es redundante ya que si la inserción es exitosa se redirige antes, pero se mantiene por claridad
+		// Esta linea es redundante ya que si la insercion es exitosa se redirige antes, pero se mantiene por claridad
 		response.getWriter().println("Datos insertados correctamente en la base de datos");
 	}
 
 
 	/**
-	 * Método para obtener el nombre del archivo de la canción desde la parte (Part) de la solicitud.
+	 * Metodo para obtener el nombre del archivo de la cancion desde la parte (Part) de la solicitud.
 	 * 
-	 * @param part La parte (Part) de la solicitud HTTP que contiene el archivo de la canción
+	 * @param part La parte (Part) de la solicitud HTTP que contiene el archivo de la cancion
 	 * @return El nombre del archivo de la canción
 	 */
 	private String obtenerNombreArchivoCancion(Part part) {
 	    String nombreArchivoCancion = null;
 	    // Divide los encabezados de la parte en un array utilizando el delimitador ";"
 	    String[] headers = part.getHeader("content-disposition").split(";");
-	    int i = 0; // Inicializa el índice para recorrer el array
+	    int i = 0; // Inicializa el indice para recorrer el array
 	    // Utiliza un bucle while para recorrer los encabezados
 	    // El bucle se detiene cuando se ha encontrado el nombre del archivo (nombreArchivoCancion != null)
 	    // o cuando se han revisado todos los encabezados (i < headers.length)
@@ -220,12 +220,12 @@ public class Tracks extends HttpServlet {
 	        }
 	        i++; // Incrementa el índice para revisar el siguiente encabezado
 	    }
-	    // Retorna el nombre del archivo encontrado o null si no se encontró ninguno
+	    // Retorna el nombre del archivo encontrado o null si no se encontro ninguno
 	    return nombreArchivoCancion;
 	}
 
 	/**
-	 * Método para obtener el nombre del archivo de la foto desde la parte (Part) de la solicitud.
+	 * Metodo para obtener el nombre del archivo de la foto desde la parte (Part) de la solicitud.
 	 * 
 	 * @param part La parte (Part) de la solicitud HTTP que contiene el archivo de la foto
 	 * @return El nombre del archivo de la foto
@@ -234,7 +234,7 @@ public class Tracks extends HttpServlet {
 		String nombreArchivoFoto = null;
 	    // Divide los encabezados de la parte en un array utilizando el delimitador ";"
 	    String[] headers = part.getHeader("content-disposition").split(";");
-	    int i = 0; // Inicializa el índice para recorrer el array
+	    int i = 0; // Inicializa el indice para recorrer el array
 	    // Utiliza un bucle while para recorrer los encabezados
 	    // El bucle se detiene cuando se ha encontrado el nombre del archivo (nombreArchivoCancion != null)
 	    // o cuando se han revisado todos los encabezados (i < headers.length)
@@ -245,9 +245,9 @@ public class Tracks extends HttpServlet {
 	            // Extrae el nombre del archivo desde el encabezado
 	            nombreArchivoFoto = content.substring(content.indexOf('=') + 1).trim().replace("\"", "");
 	        }
-	        i++; // Incrementa el índice para revisar el siguiente encabezado
+	        i++; // Incrementa el indice para revisar el siguiente encabezado
 	    }
-	    // Retorna el nombre del archivo encontrado o null si no se encontró ninguno
+	    // Retorna el nombre del archivo encontrado o null si no se encontro ninguno
 	    return nombreArchivoFoto;
 	}
 
@@ -266,14 +266,14 @@ public class Tracks extends HttpServlet {
 
 
 	/**
-	 * Método para guardar el archivo de la canción en el servidor.
+	 * Metodo para guardar el archivo de la cancion en el servidor.
 	 * 
-	 * @param input InputStream que contiene los datos del archivo de la canción
-	 * @param nombreArchivoCancion Nombre del archivo de la canción
-	 * @throws IOException Si ocurre un error de entrada o salida durante la operación de copia del archivo
+	 * @param input InputStream que contiene los datos del archivo de la cancion
+	 * @param nombreArchivoCancion Nombre del archivo de la cancion
+	 * @throws IOException Si ocurre un error de entrada o salida durante la operacion de copia del archivo
 	 */
 	private void guardarArchivoCancion(InputStream input, String nombreArchivoCancion) throws IOException {
-		// Crear un objeto File para el archivo de la canción en la carpeta de uploads
+		// Crear un objeto File para el archivo de la cancion en la carpeta de uploads
 		File file = new File(uploads, nombreArchivoCancion);
 
 		// Copiar los datos del InputStream al archivo en el sistema de archivos
@@ -281,11 +281,11 @@ public class Tracks extends HttpServlet {
 	}
 
 	/**
-	 * Método para guardar el archivo de la foto en el servidor.
+	 * Metodo para guardar el archivo de la foto en el servidor.
 	 * 
 	 * @param input InputStream que contiene los datos del archivo de la foto
 	 * @param nombreArchivoFoto Nombre del archivo de la foto
-	 * @throws IOException Si ocurre un error de entrada o salida durante la operación de copia del archivo
+	 * @throws IOException Si ocurre un error de entrada o salida durante la operacion de copia del archivo
 	 */
 	private void guardarArchivoFoto(InputStream input, String nombreArchivoFoto) throws IOException {
 		// Crear un objeto File para el archivo de la foto en la carpeta de uploads

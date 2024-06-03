@@ -27,7 +27,7 @@ import dao.DaoTracks;
 import dao.DaoUsuarios;
 
 /**
- * @author Ángel Benítez Izquierdo
+ * @author Angel Benitez Izquierdo
  * @version 1.0
  * 
  * Servlet que gestiona las operaciones relacionadas con los usuarios del sistema.
@@ -46,7 +46,7 @@ public class Usuarios extends HttpServlet {
 	}
 
 	/**
-	 * Maneja las solicitudes GET para obtener información sobre los usuarios.
+	 * Maneja las solicitudes GET para obtener informacion sobre los usuarios.
 	 * 
 	 * @param request Objeto HttpServletRequest que contiene la solicitud HTTP
 	 * @param response Objeto HttpServletResponse que contiene la respuesta HTTP
@@ -101,7 +101,7 @@ public class Usuarios extends HttpServlet {
 	 * @throws IOException Si ocurre un error de entrada o salida durante la solicitud
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// Obtener parámetros del formulario de registro		
+		// Obtener parametros del formulario de registro		
 		String nombre = request.getParameter("nombre");
 		String correo = request.getParameter("correo");
 		String password = getMD5(request.getParameter("password")); // cifrar la pass
@@ -123,11 +123,11 @@ public class Usuarios extends HttpServlet {
 		if (rolString != null && !rolString.isEmpty()) {
 			rol = Rol.valueOf(rolString.toUpperCase()); // Convierte el valor introducido por el usuario a MAYUSCULAS
 		} else {
-			// Asignar un valor predeterminado si no se proporciona un rol válido
+			// Asignar un valor predeterminado si no se proporciona un rol valido
 			rol = Rol.CLIENTE; // Por ejemplo, asumir que el nuevo usuario es un cliente por defecto
 		}
 
-		// Crear una instancia de Administrador o Cliente según el rol
+		// Crear una instancia de Administrador o Cliente segun el rol
 		Usuario usuario;
 		if (rol == Rol.ADMINISTRADOR) {
 			usuario = new Administrador(nombre, correo, password, rol);
@@ -151,15 +151,15 @@ public class Usuarios extends HttpServlet {
 	}
 
 	/**
-	 * Método para manejar las solicitudes HTTP DELETE para eliminar un usuario de la base de datos.
+	 * Metodo para manejar las solicitudes HTTP DELETE para eliminar un usuario de la base de datos.
 	 * 
-	 * @param request  El objeto HttpServletRequest que contiene la información de la solicitud.
-	 * @param response El objeto HttpServletResponse que se utilizará para enviar la respuesta.
+	 * @param request  El objeto HttpServletRequest que contiene la informacion de la solicitud.
+	 * @param response El objeto HttpServletResponse que se utilizara para enviar la respuesta.
 	 * @throws ServletException Si ocurre un error general de servlet.
 	 * @throws IOException      Si ocurre un error de entrada/salida al procesar la solicitud o enviar la respuesta.
 	 */
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    // Imprimir un mensaje para indicar que la solicitud ha ingresado al método
+	    // Imprimir un mensaje para indicar que la solicitud ha ingresado al metodo
 	    System.out.println("Entra en doDelete Usuarios");
 	    
 	    // Obtener el ID del usuario a eliminar desde los parámetros de la solicitud
@@ -173,14 +173,14 @@ public class Usuarios extends HttpServlet {
 	        boolean eliminado = DaoUsuarios.getInstance().eliminarUsuario(usuario);
 
 	        if (eliminado) {
-	            // Si la eliminación fue exitosa, establecer el código de estado 204 (No Content)
+	            // Si la eliminacion fue exitosa, establecer el código de estado 204 (No Content)
 	            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
 	        } else {
 	            // Si no se pudo eliminar el usuario, enviar un error interno del servidor
 	            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "No se pudo eliminar al usuario.");
 	        }
 	    } catch (SQLException e) {
-	        // Si ocurre alguna excepción SQL, imprimir el mensaje de error en la consola
+	        // Si ocurre alguna excepcion SQL, imprimir el mensaje de error en la consola
 	        e.printStackTrace();
 	        // Enviar un error interno del servidor junto con el mensaje de error
 	        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al eliminar el usuario: " + e.getMessage());
@@ -189,14 +189,14 @@ public class Usuarios extends HttpServlet {
 
 
 	/**
-	 * Método para manejar las solicitudes HTTP PUT para actualizar un usuario en la base de datos.
+	 * Metodo para manejar las solicitudes HTTP PUT para actualizar un usuario en la base de datos.
 	 * 
-	 * @param request  El objeto HttpServletRequest que contiene la información de la solicitud.
-	 * @param response El objeto HttpServletResponse que se utilizará para enviar la respuesta.
+	 * @param request  El objeto HttpServletRequest que contiene la informacion de la solicitud.
+	 * @param response El objeto HttpServletResponse que se utilizara para enviar la respuesta.
 	 * @throws IOException Si ocurre un error de entrada/salida al procesar la solicitud o enviar la respuesta.
 	 */
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
-	    // Obtener los parámetros de la solicitud
+	    // Obtener los parametros de la solicitud
 	    int idUsuario = Integer.parseInt(request.getParameter("idUsuarios"));
 	    String nombre = request.getParameter("nombre");
 	    String correo = request.getParameter("correo");
@@ -212,7 +212,7 @@ public class Usuarios extends HttpServlet {
 	        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Rol no proporcionado.");
 	        return;
 	    } else {
-	        // Convertir el string del rol a un valor de la enumeración Rol
+	        // Convertir el string del rol a un valor de la enumeracion Rol
 	        rol = Rol.valueOf(rolString.toUpperCase());
 	    }
 
@@ -223,21 +223,21 @@ public class Usuarios extends HttpServlet {
 	        // Intentar actualizar el usuario en la base de datos
 	        DaoUsuarios.actualizarUsuario(u1);
 	        
-	        // Si la actualización es exitosa, enviar un mensaje de éxito
+	        // Si la actualizacion es exitosa, enviar un mensaje de exito
 	        response.getWriter().println("Datos insertados correctamente en la base de datos");
 
 	    } catch (SQLException e) {
 	        // Si ocurre un error al interactuar con la base de datos, enviar un error interno del servidor
 	        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al insertar datos en la base de datos.");
-	        e.printStackTrace(); // Imprimir la traza para fines de depuración
+	        e.printStackTrace(); // Imprimir la traza para fines de depuracion
 	    }
 	}
 
 
 	/**
-	 * Método para obtener el hash MD5 de una cadena de entrada.
+	 * Metodo para obtener el hash MD5 de una cadena de entrada.
 	 * 
-	 * @param input La cadena de entrada para la cual se calculará el hash MD5.
+	 * @param input La cadena de entrada para la cual se calculara el hash MD5.
 	 * @return El hash MD5 como una cadena de 32 caracteres.
 	 */
 	private String getMD5(String input) {
@@ -248,7 +248,7 @@ public class Usuarios extends HttpServlet {
 	        // Calcular el hash MD5 de la cadena de entrada
 	        byte[] messageDigest = md.digest(input.getBytes());
 
-	        // Convertir el arreglo de bytes del hash a una representación hexadecimal
+	        // Convertir el arreglo de bytes del hash a una representacion hexadecimal
 	        BigInteger number = new BigInteger(1, messageDigest);
 	        String hashtext = number.toString(16);
 
@@ -258,8 +258,8 @@ public class Usuarios extends HttpServlet {
 	        }
 	        return hashtext; // Devolver el hash MD5 como una cadena de 32 caracteres
 	    } catch (NoSuchAlgorithmException e) {
-	        // Capturar cualquier excepción NoSuchAlgorithmException y relanzarla como RuntimeException
-	        // Esto asegura que el método no necesite manejar explícitamente esta excepción
+	        // Capturar cualquier excepcion NoSuchAlgorithmException y relanzarla como RuntimeException
+	        // Esto asegura que el método no necesite manejar explícitamente esta excepcion
 	        throw new RuntimeException(e);
 	    }
 	}

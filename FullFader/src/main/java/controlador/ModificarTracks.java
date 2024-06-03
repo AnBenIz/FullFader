@@ -26,7 +26,7 @@ import com.google.gson.Gson;
 import dao.DaoTracks;
 
 /**
- * @author Ángel Benítez Izquierdo
+ * @author Angel Benitez Izquierdo
  * @version 1.0
  * 
  * Servlet implementation class ModificarTracks
@@ -53,37 +53,37 @@ public class ModificarTracks extends HttpServlet {
 	}
 
 	/**
-	 * Método GET utilizado para obtener información de una pista de audio por el idTracks.
+	 * Metodo GET utilizado para obtener informacion de una pista de audio por el idTracks.
 	 * 
 	 * @param request  El objeto HttpServletRequest que contiene la solicitud del cliente.
-	 * @param response El objeto HttpServletResponse que contiene la respuesta que se enviará al cliente.
+	 * @param response El objeto HttpServletResponse que contiene la respuesta que se enviara al cliente.
 	 * @throws ServletException Si ocurre un error en la ejecución del servlet.
 	 * @throws IOException      Si ocurre un error de entrada/salida al procesar la solicitud o generar la respuesta.
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// Obtiene la sesión actual, si no existe, se crea una nueva
+		// Obtiene la sesion actual, si no existe, se crea una nueva
 		sesion = request.getSession();
 
-		int idSesion = 0; // Variable para almacenar el ID de usuario de la sesión
+		int idSesion = 0; // Variable para almacenar el ID de usuario de la sesion
 
 		// Verifica si existe el atributo "idUsuarios" en la sesión
 		if (sesion.getAttribute("idUsuarios") != null) {
-			// Obtiene el ID de usuario de la sesión
+			// Obtiene el ID de usuario de la sesion
 			idSesion = (int) sesion.getAttribute("idUsuarios");
 
-			// Obtiene el rol del usuario de la sesión
+			// Obtiene el rol del usuario de la sesion
 			Rol sesionRol = (Rol) sesion.getAttribute("rol");
 
 			// Verifica si el rol del usuario es ADMINISTRADOR
 			if (sesionRol == Rol.ADMINISTRADOR) {
-				// Imprime un mensaje en la consola indicando que ha entrado en la sección de modificación
+				// Imprime un mensaje en la consola indicando que ha entrado en la seccion de modificacion
 				System.out.println("Entra por el GetModificar");
 
 				// Objeto PrintWriter para escribir la respuesta
 				PrintWriter out = response.getWriter();
 
-				// Obtiene el parámetro "idTrack" de la solicitud y lo convierte a entero
+				// Obtiene el parametro "idTrack" de la solicitud y lo convierte a entero
 				int idTrack = Integer.parseInt(request.getParameter("idTrack"));
 
 				// Objeto Gson para convertir objetos Java a formato JSON
@@ -95,7 +95,7 @@ public class ModificarTracks extends HttpServlet {
 				// Objeto Track para almacenar la pista de audio obtenida
 				Track track;
 				try {
-					// Intenta obtener la pista de audio por su ID utilizando el método obtenerTrackPorId de DaoTracks
+					// Intenta obtener la pista de audio por su ID utilizando el metodo obtenerTrackPorId de DaoTracks
 					track = DaoTracks.getInstance().obtenerTrackPorId(idTrack);
 
 					if (track != null) {
@@ -116,29 +116,29 @@ public class ModificarTracks extends HttpServlet {
 			}
 
 		} else {
-			// Si no existe el atributo "idUsuarios" en la sesión, redirige al usuario a la página de login
+			// Si no existe el atributo "idUsuarios" en la sesion, redirige al usuario a la pagina de login
 			response.sendRedirect("login.html");
 		}
 	}
 
 	/**
-	 * Método POST utilizado para procesar la solicitud de modificación de una pista de audio.
+	 * Metodo POST utilizado para procesar la solicitud de modificacion de una pista de audio.
 	 * 
 	 * @param request  El objeto HttpServletRequest que contiene la solicitud del cliente.
 	 * @param response El objeto HttpServletResponse que contiene la respuesta que se enviará al cliente.
-	 * @throws ServletException Si ocurre un error en la ejecución del servlet.
+	 * @throws ServletException Si ocurre un error en la ejecucion del servlet.
 	 * @throws IOException      Si ocurre un error de entrada/salida al procesar la solicitud o generar la respuesta.
 	 */
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// Obtiene el ID de la pista de audio a modificar desde los parámetros de la solicitud y lo convierte a entero
+		// Obtiene el ID de la pista de audio a modificar desde los parametros de la solicitud y lo convierte a entero
 		int idTrack = Integer.parseInt(request.getParameter("idTrack"));
 
-		// Declaración de la pista de audio actual fuera del bloque try-catch
+		// Declaracion de la pista de audio actual fuera del bloque try-catch
 		Track trackAntiguo = null;
 
 		try {
-			// Intenta obtener la pista de audio actual por su ID utilizando el método obtenerTrackPorId de DaoTracks
+			// Intenta obtener la pista de audio actual por su ID utilizando el metodo obtenerTrackPorId de DaoTracks
 			trackAntiguo = DaoTracks.getInstance().obtenerTrackPorId(idTrack);
 		} catch (SQLException e) {
 			// Si ocurre una excepción de SQL, envía un error de estado 500 (Internal Server Error) y un mensaje de error
@@ -149,18 +149,18 @@ public class ModificarTracks extends HttpServlet {
 		// Variable para verificar si se actualizó algún campo de la pista
 		boolean updated = false;
 
-		// Obtiene el parámetro "genero" de la solicitud
+		// Obtiene el parametro "genero" de la solicitud
 		String generoString = request.getParameter("genero");
 		if (generoString != null && !generoString.isEmpty()) {
-			// Si el parámetro "genero" no está vacío, intenta convertirlo al tipo Enum Genero
+			// Si el parametro "genero" no está vacio, intenta convertirlo al tipo Enum Genero
 			Genero genero = null;
 			try {
 				genero = Genero.valueOf(generoString.toUpperCase());
-				// Actualiza el género de la pista y establece la variable updated a true
+				// Actualiza el genero de la pista y establece la variable updated a true
 				trackAntiguo.setGenero(genero);
 				updated = true;
 			} catch (IllegalArgumentException e) {
-				// Si ocurre una excepción de argumento ilegal, envía un error de estado 400 (Bad Request) y un mensaje de error
+				// Si ocurre una excepcion de argumento ilegal, envia un error de estado 400 (Bad Request) y un mensaje de error
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Género no válido.");
 				return; // Sale del método
 			}
@@ -169,39 +169,39 @@ public class ModificarTracks extends HttpServlet {
 		// Obtiene el parámetro "titulo" de la solicitud
 		String titulo = request.getParameter("titulo");
 		if (titulo != null && !titulo.isEmpty()) {
-			// Si el parámetro "titulo" no está vacío, actualiza el título de la pista y establece la variable updated a true
+			// Si el parametro "titulo" no está vacio, actualiza el titulo de la pista y establece la variable updated a true
 			trackAntiguo.setTitulo(titulo);
 			updated = true;
 		}
 
-		// Obtiene el parámetro "sello" de la solicitud
+		// Obtiene el parametro "sello" de la solicitud
 		String sello = request.getParameter("sello");
 		if (sello != null && !sello.isEmpty()) {
-			// Si el parámetro "sello" no está vacío, actualiza el sello de la pista y establece la variable updated a true
+			// Si el parametro "sello" no está vacio, actualiza el sello de la pista y establece la variable updated a true
 			trackAntiguo.setSello(sello);
 			updated = true;
 		}
 
-		// Obtiene el parámetro "year" de la solicitud
+		// Obtiene el parametro "year" de la solicitud
 		String yearString = request.getParameter("year");
 		if (yearString != null && !yearString.isEmpty()) {
-			// Si el parámetro "year" no está vacío, intenta convertirlo a entero
+			// Si el parametro "year" no esta vacío, intenta convertirlo a entero
 			try {
 				int year = Integer.parseInt(yearString);
 				// Actualiza el año de la pista y establece la variable updated a true
 				trackAntiguo.setYear(year);
 				updated = true;
 			} catch (NumberFormatException e) {
-				// Si ocurre una excepción de formato de número, envía un error de estado 400 (Bad Request) y un mensaje de error
+				// Si ocurre una excepción de formato de numero, envia un error de estado 400 (Bad Request) y un mensaje de error
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Año inválido.");
-				return; // Sale del método
+				return; // Sale del metodo
 			}
 		}
 
-		// Obtiene el parámetro "duracion" de la solicitud
+		// Obtiene el parametro "duracion" de la solicitud
 		String duracion = request.getParameter("duracion");
 		if (duracion != null && !duracion.isEmpty()) {
-			// Si el parámetro "duracion" no está vacío, actualiza la duración de la pista y establece la variable updated a true
+			// Si el parametro "duracion" no está vacio, actualiza la duracion de la pista y establece la variable updated a true
 			trackAntiguo.setDuracion(duracion);
 			updated = true;
 		}
@@ -209,21 +209,21 @@ public class ModificarTracks extends HttpServlet {
 		// Obtiene el archivo de la canción de la solicitud
 		Part archivoCancion = request.getPart("archivo");
 		if (archivoCancion != null && archivoCancion.getSize() > 0) {
-			// Si el archivo de la canción no está vacío, obtiene el nombre del archivo
+			// Si el archivo de la cancion no esta vacio, obtiene el nombre del archivo
 			String nombreArchivoCancion = obtenerNombreArchivoCancion(archivoCancion);
 			if (!nombreArchivoCancion.isEmpty()) {
 				try {
-					// Guarda el archivo de la canción en el servidor y actualiza el nombre del archivo en la pista
+					// Guarda el archivo de la cancion en el servidor y actualiza el nombre del archivo en la pista
 					guardarArchivoCancion(archivoCancion.getInputStream(), nombreArchivoCancion);
 					trackAntiguo.setArchivo(nombreArchivoCancion);
 					updated = true;
 				} catch (IOException e) {
-					// Si ocurre una excepción de E/S, envía un error de estado 500 (Internal Server Error) y un mensaje de error
+					// Si ocurre una excepcion de E/S, envia un error de estado 500 (Internal Server Error) y un mensaje de error
 					response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al guardar archivo de canción.");
 					return; // Sale del método
 				}
 			} else {
-				// Si el nombre del archivo de la canción es inválido, envía un error de estado 400 (Bad Request) y un mensaje de error
+				// Si el nombre del archivo de la cancion es invalido, envia un error de estado 400 (Bad Request) y un mensaje de error
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Nombre de archivo de canción inválido.");
 				return; // Sale del método
 			}
@@ -232,7 +232,7 @@ public class ModificarTracks extends HttpServlet {
 		// Obtiene el archivo de la foto de la solicitud
 		Part archivoFoto = request.getPart("portada");
 		if (archivoFoto != null && archivoFoto.getSize() > 0) {
-			// Si el archivo de la foto no está vacío, obtiene el nombre del archivo
+			// Si el archivo de la foto no está vacio, obtiene el nombre del archivo
 			String nombreArchivoFoto = obtenerNombreArchivoFoto(archivoFoto);
 			if (!nombreArchivoFoto.isEmpty()) {
 				try {
@@ -241,30 +241,30 @@ public class ModificarTracks extends HttpServlet {
 					trackAntiguo.setPortada(nombreArchivoFoto);
 					updated = true;
 				} catch (IOException e) {
-					// Si ocurre una excepción de E/S, envía un error de estado 500 (Internal Server Error) y un mensaje de error
+					// Si ocurre una excepción de E/S, envia un error de estado 500 (Internal Server Error) y un mensaje de error
 					response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al guardar archivo de foto.");
-					return; // Sale del método
+					return; // Sale del metodo
 				}
 			} else {
-				// Si el nombre del archivo de la foto es inválido, envía un error de estado 400 (Bad Request) y un mensaje de error
+				// Si el nombre del archivo de la foto es invalido, envia un error de estado 400 (Bad Request) y un mensaje de error
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Nombre de archivo de foto inválido.");
 				return; // Sale del método
 			}
 		}
 
-		// Si se actualizó algún campo, guardar los cambios en la base de datos
+		// Si se actualizo algun campo, guardar los cambios en la base de datos
 		if (updated) {
 			try {
-				// Intenta actualizar la pista de audio en la base de datos utilizando el método actualizarTrack de DaoTracks
+				// Intenta actualizar la pista de audio en la base de datos utilizando el metodo actualizarTrack de DaoTracks
 				DaoTracks.actualizarTrack(trackAntiguo);
-				// Redirige al usuario a la página listarTracks.html después de la actualización exitosa
+				// Redirige al usuario a la página listarTracks.html despues de la actualizacion exitosa
 				response.sendRedirect("listarTracks.html");
 			} catch (SQLException e) {
-				// Si ocurre una excepción de SQL, envía un error de estado 500 (Internal Server Error) y un mensaje de error
+				// Si ocurre una excepcion de SQL, envía un error de estado 500 (Internal Server Error) y un mensaje de error
 				response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al actualizar datos en la base de datos.");
 			}
 		} else {
-			// Si no se realizó ninguna actualización, escribe un mensaje en la respuesta
+			// Si no se realizo ninguna actualizacion, escribe un mensaje en la respuesta
 			response.getWriter().println("No se realizó ninguna actualización.");
 		}
 	}
@@ -272,8 +272,8 @@ public class ModificarTracks extends HttpServlet {
 	/**
 	 * Maneja las solicitudes HTTP DELETE para eliminar una pista de la base de datos.
 	 * 
-	 * Este método procesa una solicitud DELETE para eliminar una pista específica identificada por su ID.
-	 * Recupera el ID de la pista de los parámetros de la solicitud, intenta eliminar la pista utilizando 
+	 * Este metodo procesa una solicitud DELETE para eliminar una pista especifica identificada por su ID.
+	 * Recupera el ID de la pista de los parametros de la solicitud, intenta eliminar la pista utilizando 
 	 * el objeto de acceso a datos DaoTracks, y establece el estado HTTP de la respuesta apropiado según el resultado.
 	 * 
 	 * @param request  el objeto HttpServletRequest que contiene la solicitud realizada por el cliente al servlet
@@ -283,40 +283,40 @@ public class ModificarTracks extends HttpServlet {
 	 */
 	@Override
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// Imprime un mensaje en la consola indicando que se ha entrado en el método doDelete
+		// Imprime un mensaje en la consola indicando que se ha entrado en el metodo doDelete
 		System.out.println("Entra en doDelete Modificar");
 
-		// Obtiene el ID del track a eliminar desde los parámetros de la solicitud y lo convierte a entero
+		// Obtiene el ID del track a eliminar desde los parametros de la solicitud y lo convierte a entero
 		int idTrack = Integer.parseInt(request.getParameter("idTrack"));
 
 		try {
 			// Crea un objeto Track con el ID obtenido
 			Track track = new Track(idTrack);
 
-			// Intenta eliminar el track utilizando el método eliminarTrack del DAO
+			// Intenta eliminar el track utilizando el metodo eliminarTrack del DAO
 			boolean eliminado = DaoTracks.getInstance().eliminarTrack(track);
 
 			if (eliminado) {
-				// Si la eliminación fue exitosa, establece el código de estado de la respuesta a 204 (No Content)
+				// Si la eliminacion fue exitosa, establece el codigo de estado de la respuesta a 204 (No Content)
 				response.setStatus(HttpServletResponse.SC_NO_CONTENT);
 			} else {
-				// Si no se pudo eliminar el track, establece el código de estado de la respuesta a 500 (Internal Server Error)
+				// Si no se pudo eliminar el track, establece el codigo de estado de la respuesta a 500 (Internal Server Error)
 				response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "No se pudo eliminar el track.");
 			}
 		} catch (SQLException e) {
-			// Si ocurre alguna excepción SQL, imprime el mensaje de error en la consola
+			// Si ocurre alguna excepcion SQL, imprime el mensaje de error en la consola
 			e.printStackTrace();
-			// Establece el código de estado de la respuesta a 500 (Internal Server Error) y envía el mensaje de error
+			// Establece el codigo de estado de la respuesta a 500 (Internal Server Error) y envia el mensaje de error
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al eliminar el track: " + e.getMessage());
 		}
 	}
 
 
 	/**
-	 * Obtiene el nombre del archivo de la canción a partir del objeto Part proporcionado.
+	 * Obtiene el nombre del archivo de la cancion a partir del objeto Part proporcionado.
 	 * 
-	 * @param part El objeto Part que contiene la información del archivo de la canción.
-	 * @return El nombre del archivo de la canción.
+	 * @param part El objeto Part que contiene la informacion del archivo de la cancion.
+	 * @return El nombre del archivo de la cancion.
 	 */
 	private String obtenerNombreArchivoCancion(Part part) {
 	    String nombreArchivoCancion = null;
@@ -334,7 +334,7 @@ public class ModificarTracks extends HttpServlet {
 	/**
 	 * Obtiene el nombre del archivo de la foto a partir del objeto Part proporcionado.
 	 * 
-	 * @param part El objeto Part que contiene la información del archivo de la foto.
+	 * @param part El objeto Part que contiene la informacion del archivo de la foto.
 	 * @return El nombre del archivo de la foto.
 	 */
 	private String obtenerNombreArchivoFoto(Part part) {
@@ -365,14 +365,14 @@ public class ModificarTracks extends HttpServlet {
 
 
 	/**
-	 * Guarda el archivo de la canción en el servidor.
+	 * Guarda el archivo de la cancion en el servidor.
 	 * 
-	 * @param input              El flujo de entrada que contiene los datos del archivo de la canción.
-	 * @param nombreArchivoCancion El nombre del archivo de la canción.
+	 * @param input              El flujo de entrada que contiene los datos del archivo de la cancion.
+	 * @param nombreArchivoCancion El nombre del archivo de la cancion.
 	 * @throws IOException Si ocurre un error de entrada/salida al intentar guardar el archivo.
 	 */
 	private void guardarArchivoCancion(InputStream input, String nombreArchivoCancion) throws IOException {
-	    // Crea un objeto File con la ubicación y el nombre del archivo de la canción
+	    // Crea un objeto File con la ubicacion y el nombre del archivo de la cancion
 	    File file = new File(uploads, nombreArchivoCancion);
 	    // Copia los datos del flujo de entrada al archivo en el servidor, reemplazando si ya existe un archivo con el mismo nombre
 	    Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);

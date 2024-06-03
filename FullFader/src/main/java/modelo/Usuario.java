@@ -6,7 +6,7 @@ import dao.DaoTracks;
 import dao.DaoUsuarios;
 
 /**
- * @author Ángel Benítez Izquierdo
+ * @author Angel Benitez Izquierdo
  * @version 1.0
  * 
  * Clase que representa un usuario en el sistema.
@@ -48,7 +48,7 @@ public class Usuario {
 	 * Constructor de la clase Usuario sin el Id del suario.
 	 * 
 	 * @param nombre			- El nombre del usuario
-	 * @param correoElectronico	- El correo electrónico del usuario
+	 * @param correoElectronico	- El correo electronico del usuario
 	 * @param password 			- La contraseña del usuario
 	 * @param rol 				- El rol del usuario (ADMINISTRADOR o CLIENTE)
 	 */
@@ -61,9 +61,9 @@ public class Usuario {
 	}
 
 	/**
-	 * Constructor de la clase Usuario para autenticación.
+	 * Constructor de la clase Usuario para autenticacion.
 	 * 
-	 * @param correoElectronico El correo electrónico del usuario
+	 * @param correoElectronico El correo electronico del usuario
 	 * @param password La contraseña del usuario
 	 */	
 	public Usuario(String correoElectronico, String password) {
@@ -78,7 +78,7 @@ public class Usuario {
 	}
 
 	/**
-	 * Enumeración que representa los roles posibles de un usuario.
+	 * Enumeracion que representa los roles posibles de un usuario.
 	 */
 	public enum Rol {
 		ADMINISTRADOR,
@@ -86,24 +86,24 @@ public class Usuario {
 	}
 
 	/**
-	 * Método para insertar un nuevo usuario en la base de datos.
+	 * Metodo para insertar un nuevo usuario en la base de datos.
 	 * 
 	 * @throws SQLException Si ocurre un error al insertar el usuario en la base de datos
 	 */
 	public void insertarUsuario () throws SQLException {
-		// Llama al método insertarUsuario del DaoUsuarios para insertar este usuario en la base de datos
+		// Llama al metodo insertarUsuario del DaoUsuarios para insertar este usuario en la base de datos
 		DaoUsuarios.getInstance().insertarUsuario(this);
 	}
 
 	/**
-	 * Método para iniciar sesión de un usuario.
+	 * Metodo para iniciar sesión de un usuario.
 	 * 
-	 * Este método verifica las credenciales del usuario utilizando la contraseña proporcionada.
+	 * Este metodo verifica las credenciales del usuario utilizando la contraseña proporcionada.
 	 * Si las credenciales son correctas, se inicializan las propiedades del usuario con los datos
 	 * obtenidos de la base de datos.
 	 * 
 	 * @param password La contraseña proporcionada por el usuario para iniciar sesión.
-	 * @return true si el inicio de sesión es exitoso, false en caso contrario.
+	 * @return true si el inicio de sesion es exitoso, false en caso contrario.
 	 * @throws SQLException Si ocurre un error durante la operación de la base de datos.
 	 */
 	public boolean logeo(String password) throws SQLException {
@@ -168,7 +168,7 @@ public class Usuario {
 	}
 
 	/**
-	 * Devuelve una representación en forma de cadena del objeto Usuario, mostrando sus atributos principales.
+	 * Devuelve una representacion en forma de cadena del objeto Usuario, mostrando sus atributos principales.
 	 * 
 	 * @return Una cadena que representa el objeto Usuario
 	 */

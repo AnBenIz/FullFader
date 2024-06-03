@@ -5,10 +5,10 @@ import java.sql.SQLException;
 import dao.DaoTracks;
 
 /**
- * @author Ángel Benítez Izquierdo
+ * @author Angel Benitez Izquierdo
  * @version 1.0
  * 
- * Clase que representa un track de música.
+ * Clase que representa un track de musica.
  */
 public class Track {
 
@@ -84,7 +84,7 @@ public class Track {
 	}
 
 	/**
-	 * Enumeración que representa los diferentes géneros musicales.
+	 * Enumeracion que representa los diferentes generos musicales.
 	 */
 	public enum Genero {
 		TECHNO,
@@ -94,7 +94,7 @@ public class Track {
 	}
 
 	/**
-	 * Método para insertar un nuevo track en la base de datos.
+	 * Metodo para insertar un nuevo track en la base de datos.
 	 * 
 	 * @throws SQLException Si ocurre un error al insertar el track.
 	 */
@@ -107,10 +107,10 @@ public class Track {
 	}
 
 	/**
-	 * Método para actualizar un track en la base de datos.
+	 * Metodo para actualizar un track en la base de datos.
 	 * 
 	 * @param track		- El track a actualizar.
-	 * @return `true` si la actualización fue exitosa, `false` de lo contrario.
+	 * @return `true` si la actualizacion fue exitosa, `false` de lo contrario.
 	 */	
 	public boolean actualizarTrack(Track track) {
 		try {
@@ -174,7 +174,7 @@ public class Track {
 	}
 
 	/**
-	 * Sobrescritura del método `toString` para representar el objeto Track como una cadena de texto.
+	 * Sobrescritura del metodo `toString` para representar el objeto Track como una cadena de texto.
 	 * 
 	 * @return Una cadena que representa el objeto Track.
 	 */

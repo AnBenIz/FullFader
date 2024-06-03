@@ -16,7 +16,7 @@ import modelo.Usuario;
 import modelo.Usuario.Rol;
 
 /**
- * @author Ángel Benítez Izquierdo
+ * @author Angel Benitez Izquierdo
  * @version 1.0
  * 
  * Clase que gestiona las operaciones relacionadas con los usuarios en la base de datos.
@@ -27,9 +27,9 @@ public class DaoUsuarios {
 	private static DaoUsuarios instance = null;
 
 	/**
-	 * Constructor de la clase DaoUsuarios. Establece la conexión a la base de datos.
+	 * Constructor de la clase DaoUsuarios. Establece la conexion a la base de datos.
 	 * 
-	 * @throws SQLException Si ocurre un error al establecer la conexión a la base de datos
+	 * @throws SQLException Si ocurre un error al establecer la conexion a la base de datos
 	 */
 	public DaoUsuarios () throws SQLException {
 		this.con = DBConexion.getConexion();
@@ -37,9 +37,9 @@ public class DaoUsuarios {
 
 
 	/**
-	 * Obtiene una instancia única de la clase DaoUsuarios.
+	 * Obtiene una instancia unica de la clase DaoUsuarios.
 	 * 
-	 * @return Una instancia única de la clase DaoUsuarios
+	 * @return Una instancia unica de la clase DaoUsuarios
 	 * @throws SQLException Si ocurre un error al obtener la instancia
 	 */
 	public static DaoUsuarios getInstance () throws SQLException { // Metodo que devuelve el Objeto de la misma Clase, con todos sus metodos.
@@ -48,7 +48,7 @@ public class DaoUsuarios {
 			// Si la instancia es nula, crea una nueva instancia de DaoUsuarios
 			instance = new DaoUsuarios();
 		}
-		// Devuelve la instancia existente o recién creada de DaoUsuarios
+		// Devuelve la instancia existente o recien creada de DaoUsuarios
 		return instance;
 	}
 
@@ -64,16 +64,16 @@ public class DaoUsuarios {
 		// Preparar la declaración SQL
 		PreparedStatement ps = con.prepareStatement(sql);
 
-		// Establecer los valores de los parámetros en la consulta SQL
+		// Establecer los valores de los parametros en la consulta SQL
 		ps.setString(1, usuario.getNombre());               // Nombre del usuario
-		ps.setString(2, usuario.getCorreoElectronico());    // Correo electrónico del usuario
+		ps.setString(2, usuario.getCorreoElectronico());    // Correo electronico del usuario
 		ps.setString(3, usuario.getPassword());             // Contraseña del usuario
 		ps.setString(4, usuario.getRol().name());           // Rol del usuario (convertido a cadena)
 
 		// Ejecutar la consulta SQL para insertar el usuario en la base de datos
 		ps.executeUpdate();
 
-		// Cerrar la declaración preparada para liberar recursos
+		// Cerrar la declaracion preparada para liberar recursos
 		ps.close();
 	}
 
@@ -92,9 +92,9 @@ public class DaoUsuarios {
 		// Inicializar la lista de usuarios resultante como nula
 		ArrayList<Usuario> result = null;
 
-		// Iterar a través de los resultados del conjunto de resultados
+		// Iterar a traves de los resultados del conjunto de resultados
 		while (rs.next()) {
-			// Si la lista resultante aún no se ha inicializado, crear una nueva instancia
+			// Si la lista resultante aun no se ha inicializado, crear una nueva instancia
 			if (result == null) {
 				result = new ArrayList<>();
 			}
@@ -110,17 +110,17 @@ public class DaoUsuarios {
 	}
 
 	/**
-	 * Genera una representación JSON de todos los usuarios en la base de datos.
+	 * Genera una representacion JSON de todos los usuarios en la base de datos.
 	 * 
 	 * @return Una cadena JSON que contiene información de todos los usuarios
 	 * @throws SQLException Si ocurre un error al obtener los usuarios de la base de datos
 	 */
 	public String dameJson () throws SQLException {
-		String json = ""; // Cadena que contendrá el JSON resultante
+		String json = ""; // Cadena que contendra el JSON resultante
 		Gson gson = new Gson(); // Instancia de Gson para convertir objetos Java a JSON
 
 		// Convertir la lista de usuarios a formato JSON utilizando Gson
-		// Llama al método listarUsuarios() para obtener la lista de usuarios
+		// Llama al metodo listarUsuarios() para obtener la lista de usuarios
 		// y luego convierte esa lista a JSON
 		json = gson.toJson(this.listarUsuarios());
 
@@ -136,7 +136,7 @@ public class DaoUsuarios {
 	 * @throws SQLException Si ocurre un error al obtener el usuario de la base de datos
 	 */
 	public Usuario obtenerUsuarioPorId(int idUsuario) throws SQLException {
-		// Declaración de variables para preparar la consulta SQL y manejar el resultado
+		// Declaracion de variables para preparar la consulta SQL y manejar el resultado
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Usuario usuario = null; // Variable para almacenar el usuario recuperado
@@ -165,14 +165,14 @@ public class DaoUsuarios {
 				try {
 					rs.close(); // Cerrar el ResultSet para liberar recursos
 				} catch (SQLException e) {
-					e.printStackTrace(); // Manejar cualquier excepción al cerrar el ResultSet
+					e.printStackTrace(); // Manejar cualquier excepcion al cerrar el ResultSet
 				}
 			}
 			if (ps != null) {
 				try {
 					ps.close(); // Cerrar el PreparedStatement para liberar recursos
 				} catch (SQLException e) {
-					e.printStackTrace(); // Manejar cualquier excepción al cerrar el PreparedStatement
+					e.printStackTrace(); // Manejar cualquier excepcion al cerrar el PreparedStatement
 				}
 			}
 		}
@@ -180,16 +180,16 @@ public class DaoUsuarios {
 	}
 
 	/**
-	 * Valida un usuario en la base de datos utilizando su correo electrónico y contraseña.
+	 * Valida un usuario en la base de datos utilizando su correo electronico y contraseña.
 	 * 
-	 * @param correo El correo electrónico del usuario a validar
+	 * @param correo El correo electronico del usuario a validar
 	 * @param password La contraseña del usuario a validar
-	 * @return El objeto Usuario correspondiente al correo electrónico y contraseña proporcionados, o null si no se encuentra
+	 * @return El objeto Usuario correspondiente al correo electronico y contraseña proporcionados, o null si no se encuentra
 	 * @throws SQLException Si ocurre un error al validar el usuario en la base de datos
 	 */
 	public static Usuario validarUsuario(String correo, String password) throws SQLException {
 		Usuario usuario = null; // Variable para almacenar el usuario validado
-		Connection con = null; // Conexión a la base de datos
+		Connection con = null; // Conexion a la base de datos
 		PreparedStatement ps = null; // Sentencia preparada para la consulta SQL
 		ResultSet rs = null; // Resultado de la consulta
 
@@ -197,8 +197,8 @@ public class DaoUsuarios {
 			con = DBConexion.getConexion(); // Obtener la conexión a la base de datos
 			String sql = "SELECT * FROM usuarios WHERE correo = ? AND password = ?"; // Consulta SQL para validar las credenciales
 			ps = con.prepareStatement(sql); // Preparar la consulta SQL
-			ps.setString(1, correo); // Establecer el valor del primer parámetro en la consulta (correo)
-			ps.setString(2, password); // Establecer el valor del segundo parámetro en la consulta (password)
+			ps.setString(1, correo); // Establecer el valor del primer parametro en la consulta (correo)
+			ps.setString(2, password); // Establecer el valor del segundo parametro en la consulta (password)
 
 			rs = ps.executeQuery(); // Ejecutar la consulta y obtener el resultado
 
@@ -233,16 +233,16 @@ public class DaoUsuarios {
 	    PreparedStatement ps = null; // Sentencia preparada para la consulta SQL
 
 	    try {
-	        con = DBConexion.getConexion(); // Obtener la conexión a la base de datos
+	        con = DBConexion.getConexion(); // Obtener la conexion a la base de datos
 	        String sql = "UPDATE usuarios SET nombre=?, correo=?, password=?, rol=? WHERE idUsuarios=?"; // Consulta SQL para actualizar los datos del usuario
 	        ps = con.prepareStatement(sql); // Preparar la consulta SQL
 
-	        // Establecer los valores de los parámetros en la consulta SQL
+	        // Establecer los valores de los parametros en la consulta SQL
 	        ps.setString(1, usuario.getNombre()); // Establecer el nombre del usuario
-	        ps.setString(2, usuario.getCorreoElectronico()); // Establecer el correo electrónico del usuario
+	        ps.setString(2, usuario.getCorreoElectronico()); // Establecer el correo electronico del usuario
 	        ps.setString(3, usuario.getPassword()); // Establecer la contraseña del usuario
 	        ps.setString(4, usuario.getRol().name()); // Establecer el rol del usuario (convertido a cadena)
-	        ps.setInt(5, usuario.getIdUsuario()); // Utilizar el ID del usuario para la condición WHERE
+	        ps.setInt(5, usuario.getIdUsuario()); // Utilizar el ID del usuario para la condicion WHERE
 
 	        ps.executeUpdate(); // Ejecutar la consulta de actualización
 	    } finally {
@@ -258,22 +258,22 @@ public class DaoUsuarios {
 	 * Elimina un usuario de la base de datos.
 	 * 
 	 * @param usuario El objeto Usuario a eliminar.
-	 * @return true si se eliminó el usuario correctamente, false de lo contrario.
+	 * @return true si se elimino el usuario correctamente, false de lo contrario.
 	 * @throws SQLException Si ocurre un error al ejecutar la consulta SQL.
 	 */
 	public boolean eliminarUsuario(Usuario usuario) throws SQLException {
 	    // Definir la consulta SQL para eliminar al usuario por su ID
 	    String sql = "DELETE FROM usuarios WHERE idUsuarios = ?";
 	    try (PreparedStatement statement = con.prepareStatement(sql)) { // Crear una sentencia preparada con autocierre
-	        // Establecer el valor del parámetro ID del usuario a eliminar
+	        // Establecer el valor del parametro ID del usuario a eliminar
 	        statement.setInt(1, usuario.getIdUsuario());
-	        // Ejecutar la consulta y obtener el número de filas afectadas
+	        // Ejecutar la consulta y obtener el numero de filas afectadas
 	        int affectedRows = statement.executeUpdate();
-	        // Devolver true si se eliminó al menos una fila, false de lo contrario
+	        // Devolver true si se elimino al menos una fila, false de lo contrario
 	        return affectedRows > 0;
 	    } catch (SQLException e) {
-	        // Capturar y manejar cualquier excepción SQL que ocurra durante el proceso
-	        // Aquí podrías manejar logs o re-lanzar la excepción para manejarla en niveles más altos.
+	        // Capturar y manejar cualquier excepcion SQL que ocurra durante el proceso
+	        // Aquí podrias manejar logs o re-lanzar la excepcion para manejarla en niveles más altos.
 	        throw e;
 	    }
 	}
@@ -282,16 +282,16 @@ public class DaoUsuarios {
 	/**
 	 * Realiza el proceso de inicio de sesión del usuario.
 	 * 
-	 * @param u El objeto Usuario que contiene el correo electrónico.
+	 * @param u El objeto Usuario que contiene el correo electronico.
 	 * @param password La contraseña proporcionada por el usuario.
-	 * @return El objeto Usuario si la autenticación es exitosa, null de lo contrario.
+	 * @return El objeto Usuario si la autenticacion es exitosa, null de lo contrario.
 	 * @throws SQLException Si ocurre un error al ejecutar la consulta SQL.
 	 */
 	public Usuario logeando(Usuario u, String password) throws SQLException {
 	    Usuario aux = null;
 	    String sql = "SELECT * FROM usuarios WHERE correo=? AND password=?";
 
-	    try (PreparedStatement ps = con.prepareStatement(sql)) { // Utiliza un bloque try-with-resources para la conexión y el PreparedStatement
+	    try (PreparedStatement ps = con.prepareStatement(sql)) { // Utiliza un bloque try-with-resources para la conexion y el PreparedStatement
 	        ps.setString(1, u.getCorreoElectronico()); // Establece el correo electrónico en la consulta
 	        ps.setString(2, password); // Establece la contraseña en la consulta
 
@@ -301,14 +301,14 @@ public class DaoUsuarios {
 	                aux = new Usuario(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), Rol.valueOf(rs.getString(5)));
 	            }
 	        } catch (SQLException e) {
-	            // Captura y maneja la excepción SQLException en el bloque interno
+	            // Captura y maneja la excepcion SQLException en el bloque interno
 	            e.printStackTrace();
-	            throw e; // Opcional: relanza la excepción para que el servlet la maneje
+	            throw e; // Opcional: relanza la excepcion para que el servlet la maneje
 	        }
 	    } catch (SQLException e) {
-	        // Captura y maneja la excepción SQLException en el bloque externo
+	        // Captura y maneja la excepcion SQLException en el bloque externo
 	        e.printStackTrace();
-	        throw e; // Opcional: relanza la excepción para que el servlet la maneje
+	        throw e; // Opcional: relanza la excepcion para que el servlet la maneje
 	    }
 
 	    return aux; // Devuelve el objeto Usuario obtenido de la consulta
@@ -317,7 +317,7 @@ public class DaoUsuarios {
 
 
 	/**
-	 * Verifica si un usuario con el correo electrónico y la contraseña proporcionados existe en la base de datos.
+	 * Verifica si un usuario con el correo electronico y la contraseña proporcionados existe en la base de datos.
 	 * 
 	 * @param correo El correo electrónico del usuario.
 	 * @param password La contraseña del usuario.
@@ -347,12 +347,12 @@ public class DaoUsuarios {
 	    } catch (SQLException e) {
 	        e.printStackTrace(); // Manejar cualquier excepción SQLException imprimiendo la traza de la pila
 	    } finally {
-	        // Cerrar recursos en un bloque finally para garantizar que se cierren incluso si ocurre una excepción
+	        // Cerrar recursos en un bloque finally para garantizar que se cierren incluso si ocurre una excepcion
 	        try {
 	            if (rs != null) rs.close(); // Cerrar el ResultSet si no es nulo
 	            if (ps != null) ps.close(); // Cerrar el PreparedStatement si no es nulo
 	        } catch (SQLException e) {
-	            e.printStackTrace(); // Manejar cualquier excepción SQLException imprimiendo la traza de la pila
+	            e.printStackTrace(); // Manejar cualquier excepcion SQLException imprimiendo la traza de la pila
 	        }
 	    }
 
